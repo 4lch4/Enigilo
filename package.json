@@ -1,6 +1,6 @@
 {
-  "name": "link-inserter",
-  "displayName": "Link Inserter",
+  "name": "enmeti",
+  "displayName": "Enmeti (MD Link Inserter)",
   "description": "Helps to insert links in Markdown files.",
   "version": "0.0.1",
   "publisher": "hf-solutions-llc",
