@@ -22,14 +22,30 @@
   },
   "activationEvents": [
     "onLanguage:markdown",
-    "onCommand:extension.insertLink"
+    "onCommand:enmeti.insertLink"
   ],
   "contributes": {
     "commands": [
       {
-        "command": "extension.insertLink",
+        "command": "enmeti.insertLink",
         "title": "Insert Link",
         "category": "Insertions"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "resourceLangId == markdown",
+          "command": "enmeti.insertLink",
+          "group": "Insertions"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "enmeti.insertLink",
+        "key": "ctrl+alt+i",
+        "when": "editorTextFocus"
       }
     ]
   },

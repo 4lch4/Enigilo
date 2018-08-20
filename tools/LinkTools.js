@@ -78,6 +78,11 @@ const getMaxIndex = links => {
 
 module.exports.getMaxIndex = getMaxIndex
 
+/**
+ *
+ * @param {Window} window
+ * @returns {Promise<String>}
+ */
 const getLinkUrlFromUser = window => {
   let urlRegex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,15}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
 
