@@ -1,3 +1,6 @@
+// Used for JSDocs
+const Window = require('vscode').window
+
 /** A regex statement to test if the string starts with a link reference. */
 const urlStarterRegex = /\[\d+\]: /
 
@@ -93,7 +96,8 @@ const getLinkUrlFromUser = window => {
       validateInput: val => {
         if (urlRegex.test(val)) return null
         else return 'Please provide a value url.'
-      }
+      },
+      ignoreFocusOut: true
     }).then(res => resolve(res), err => { if (err) reject(err) })
   })
 }
