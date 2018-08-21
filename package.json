@@ -53,7 +53,7 @@
   "scripts": {
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "node ./node_modules/vscode/bin/test",
-    "publish": "vsce publish; vsce package"
+    "publish": "vsce publish && vsce package"
   },
   "devDependencies": {
     "typescript": "^3.0.1",
