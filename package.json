@@ -2,7 +2,7 @@
   "name": "enmeti",
   "displayName": "Enmeti (MD Link Inserter)",
   "description": "Helps to insert links in Markdown files.",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "publisher": "hf-solutions-llc",
   "license": "MIT",
   "author": {
@@ -52,7 +52,8 @@
   "main": "./extension",
   "scripts": {
     "postinstall": "node ./node_modules/vscode/bin/install",
-    "test": "node ./node_modules/vscode/bin/test"
+    "test": "node ./node_modules/vscode/bin/test",
+    "publish": "vsce publish; vsce package"
   },
   "devDependencies": {
     "typescript": "^3.0.1",
