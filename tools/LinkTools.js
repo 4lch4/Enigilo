@@ -11,7 +11,7 @@ const urlStarterRegex = /\[\d+\]: /
  *
  * @param {Doc} doc
  *
- * @returns {Links} A collection of links found in the document
+ * @returns {Link[]} A collection of links found in the document
  */
 const parseExistingLinks = doc => {
   let links = []
@@ -63,7 +63,7 @@ const getLinkIndex = text => {
 
 /**
  *
- * @param {Links[]} links
+ * @param {Link[]} links
  *
  * @returns {number}
  */
@@ -105,7 +105,7 @@ const getLinkUrlFromUser = window => {
 module.exports.getLinkUrl = getLinkUrlFromUser
 
 /**
- * @typedef {Object} Links
+ * @typedef {Object} Link
  * @prop {number} index The reference number used for the inline link
  * @prop {string} url The url the link points to
  * @prop {number} lineNum The line number the link resides on

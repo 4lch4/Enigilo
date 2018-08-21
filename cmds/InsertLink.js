@@ -6,25 +6,7 @@ const {
 
 const vscode = require('vscode')
 const Window = vscode.window
-const Selection = vscode.window.activeTextEditor.selection
 const Range = vscode.Range
-
-const { showMessage } = require('../tools/StdTools')
-
-/**
- * Verifies the provided selection isn't a blank selection.
- *
- * @param {Selection} selection
- *
- * @returns {boolean} True or false, is the selection a valid selection?
- */
-const verifySelection = (selection, Window) => {
-  if (selection.start.isEqual(selection.end)) {
-    showMessage(Window, 'Please make a selection before executing this command.')
-      .catch(err => Window.showErrorMessage(err.message))
-    return false
-  } else return true
-}
 
 /**
  * The function/command for inserting a link into a Markdown file.
@@ -39,37 +21,49 @@ module.exports = () => {
     getLinkUrl(Window).then(url => {
       if (url === undefined || url.length === 0) return
 
+      let newLink
       let existingLinks = parseExistingLinks(doc)
-      let maxIndex = getMaxIndex(existingLinks)
 
-      if (verifySelection(selection, Window)) {
-        try {
-          let link = {
-            index: maxIndex,
-            url: url,
-            lineNum: doc.lineCount
-          }
+      existingLinks.forEach(link => { if (link.url === url) newLink = link })
 
-          editor.edit(builder => {
-            // The OG text to begin with
-            let ogText = doc.getText(new Range(selection.start, selection.end))
+      if (newLink === undefined) {
+        let maxIndex = getMaxIndex(existingLinks)
+        newLink = {
+          index: maxIndex,
+          url: url,
+          lineNum: doc.lineCount
+        }
 
-            // The New School text to replace it with
-            let nsText = `[${ogText}][${link.index}]`
+        editor.edit(builder => {
+          // The OG text to begin with
+          let ogText = doc.getText(new Range(selection.start, selection.end))
 
-            // Perform the actual replacement
-            builder.replace(selection, nsText)
+          // The New School text to replace it with
+          let nsText = `[${ogText}][${newLink.index}]`
 
-            // The position for the actual url to go
-            let position = new vscode.Position(link.lineNum, 0)
+          // Perform the actual replacement
+          builder.replace(selection, nsText)
 
-            // The formatted string containing the index and url
-            let content = `\n[${link.index}]: ${link.url}`
+          // The position for the actual url to go
+          let position = new vscode.Position(newLink.lineNum, 0)
 
-            // Insert the url reference at the bottom of the file
-            builder.insert(position, content)
-          })
-        } catch (err) { Window.showErrorMessage(err.message) }
+          // The formatted string containing the index and url
+          let content = `\n[${newLink.index}]: ${newLink.url}`
+
+          // Insert the url reference at the bottom of the file
+          builder.insert(position, content)
+        })
+      } else {
+        editor.edit(builder => {
+        // The OG text to begin with
+          let ogText = doc.getText(new Range(selection.start, selection.end))
+
+          // The New School text to replace it with
+          let nsText = `[${ogText}][${newLink.index}]`
+
+          // Perform the actual replacement
+          builder.replace(selection, nsText)
+        })
       }
     }).catch(err => Window.showErrorMessage(err.message))
   } catch (error) {
