@@ -8,7 +8,7 @@ The simplest way to insert a link would be to select some text, right click, and
 
 ![Example-1][1]
 
-As you can see in the gif, you can also use the default `Ctrl+Shift+I` keybinding, or even change it to whatever you prefer in [keybindings.json][7]:
+As you can see in the gif, you can also use the default `Ctrl+Shift+I` keybinding, or even change it to whatever you prefer in [keybindings.json][5]:
 
 ![Keybindings.json][2]
 
@@ -19,3 +19,4 @@ As usual, any and all input is welcome and much appreciated 😊
 [2]: https://i.imgur.com/7NKAy7e.png
 [3]: https://dev.to/link2twenty/comment/4k81
 [4]: https://dev.to/link2twenty
+[5]: https://code.visualstudio.com/docs/getstarted/keybindings
