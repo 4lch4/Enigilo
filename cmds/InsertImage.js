@@ -15,7 +15,7 @@ module.exports = () => {
     let selection = editor.selection
     if (selection.isEmpty) handleEmptySelection()
 
-    lTools.getLinkUrlFromUser().then(url => {
+    lTools.getLinkUrlFromUser('What is the URL to the image you wish to display?').then(url => {
       if (url === undefined || url.length === 0) return
 
       lTools.getNewReference(url, editor.document).then(newLink => {
