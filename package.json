@@ -30,6 +30,11 @@
         "command": "enmeti.insertLink",
         "title": "Insert Link",
         "category": "Insertions"
+      },
+      {
+        "command": "enmeti.insertImage",
+        "title": "Insert Image",
+        "category": "Insertions"
       }
     ],
     "menus": {
@@ -38,12 +43,22 @@
           "when": "resourceLangId == markdown",
           "command": "enmeti.insertLink",
           "group": "Insertions"
+        },
+        {
+          "when": "resourceLangId == markdown",
+          "command": "enmeti.insertImage",
+          "group": "Insertions"
         }
       ]
     },
     "keybindings": [
       {
         "command": "enmeti.insertLink",
+        "key": "ctrl+shift+i",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "enmeti.insertImage",
         "key": "ctrl+alt+i",
         "when": "editorTextFocus"
       }
@@ -54,7 +69,7 @@
   "scripts": {
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "node ./node_modules/vscode/bin/test",
-    "publish": "vsce publish && vsce package"
+    "publish": "vsce publish && vsce package && mv enmeti*.vsix build/"
   },
   "devDependencies": {
     "typescript": "^3.0.1",
