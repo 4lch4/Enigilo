@@ -25,6 +25,19 @@
     "onCommand:enmeti.insertLink"
   ],
   "contributes": {
+    "configuration":[
+      {
+        "title": "Insertion Settings",
+        "type": "object",
+        "properties": {
+          "enmeti.insertOnBlankSelection": {
+            "type": "boolean",
+            "default": true,
+            "description": "Insert links/images when no text is selected."
+          }
+        }
+      }
+    ],
     "commands": [
       {
         "command": "enmeti.insertLink",
