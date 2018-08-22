@@ -14,7 +14,7 @@ const urlRegex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{
  *
  * @param {Doc} doc
  *
- * @returns {Link[]} A collection of links found in the document
+ * @returns {Reference[]} A collection of links found in the document
  */
 const parseExistingLinks = doc => {
   let links = []
@@ -65,10 +65,14 @@ const getLinkIndex = text => {
 }
 
 /**
+ * Parse the given collection of links and determine the highest number value
+ * for the reference index and returns that number plus 1. For example, if the
+ * last number currently used for an index is 10, then 11 is returned for use as
+ * the next references index.
  *
- * @param {Link[]} links
+ * @param {Reference[]} links The collection of links to parse
  *
- * @returns {number}
+ * @returns {number} The highest current reference index plus 1
  */
 const getMaxIndex = links => {
   /** The maximum index currently known to have been used */
@@ -80,6 +84,7 @@ const getMaxIndex = links => {
     if ((link.index - maxIndex) > 0) maxIndex = link.index
   })
 
+  // Add one so it can be used for the next reference index
   maxIndex++
 
   return maxIndex
@@ -88,9 +93,13 @@ const getMaxIndex = links => {
 module.exports.getMaxIndex = getMaxIndex
 
 /**
+ * Displays an InputBox to the user and asks them a question in order to obtain
+ * the URL for the link they're working with. If no prompt argument is provided
+ * the default of "What is the URL this link should point to?" is used.
  *
- * @param {Window} window
- * @returns {Promise<String>}
+ * @param {String} [prompt] The question to display when asking for the URL
+ *
+ * @returns {Promise<String>} The URL returned via a Promise
  */
 const getLinkUrlFromUser = (prompt = 'What is the URL this link should point to?') => {
   return new Promise((resolve, reject) => {
@@ -113,7 +122,8 @@ module.exports.getLinkUrlFromUser = getLinkUrlFromUser
  * been stored as a URL for another reference.
  *
  * @param {String} url The url you wish to check if it has been stored
- * @param {Link[]} references The currently stored references
+ *
+ * @param {Reference[]} references The currently stored references
  */
 const getNewLink = (url, doc) => {
   let references = parseExistingLinks(doc)
@@ -138,7 +148,7 @@ const getNewLink = (url, doc) => {
 module.exports.getNewReference = getNewLink
 
 /**
-   * @typedef {Object} Link
+   * @typedef {Object} Reference
    * @prop {number} index The reference number used for the inline link
    * @prop {string} url The url the link points to
    * @prop {number} lineNum The line number the link resides on

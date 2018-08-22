@@ -6,6 +6,9 @@ const Window = vscode.window
 
 const handleEmptySelection = () => { return false }
 
+/**
+ * The function/command for inserting an image into a Markdown file.
+ */
 module.exports = () => {
   try {
     let editor = Window.activeTextEditor
