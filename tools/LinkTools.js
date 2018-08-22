@@ -68,10 +68,13 @@ const getLinkIndex = text => {
  * @returns {number}
  */
 const getMaxIndex = links => {
+  /** The maximum index currently known to have been used */
   let maxIndex = -1
 
   links.forEach(link => {
-    if (link.index > maxIndex) maxIndex = link.index
+    // I use this ridiculous condition because I ran into a condition where
+    // Node was saying 9 > 11 == true...
+    if ((link.index - maxIndex) > 0) maxIndex = link.index
   })
 
   maxIndex++
@@ -86,13 +89,13 @@ module.exports.getMaxIndex = getMaxIndex
  * @param {Window} window
  * @returns {Promise<String>}
  */
-const getLinkUrlFromUser = window => {
+const getLinkUrlFromUser = (prompt = 'What is the URL this link should point to?') => {
   let urlRegex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,15}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
 
   return new Promise((resolve, reject) => {
-    window.showInputBox({
+    Window.showInputBox({
       placeHolder: 'https://hasslefree.solutions',
-      prompt: 'What is the URL this link should point to?',
+      prompt: prompt,
       validateInput: val => {
         if (urlRegex.test(val)) return null
         else return 'Please provide a value url.'
@@ -105,8 +108,37 @@ const getLinkUrlFromUser = window => {
 module.exports.getLinkUrl = getLinkUrlFromUser
 
 /**
- * @typedef {Object} Link
- * @prop {number} index The reference number used for the inline link
- * @prop {string} url The url the link points to
- * @prop {number} lineNum The line number the link resides on
+ * Checks the currently stored references to see if the provided URL has already
+ * been stored as a URL for another reference.
+ *
+ * @param {String} url The url you wish to check if it has been stored
+ * @param {Link[]} references The currently stored references
  */
+const getNewLink = (url, doc) => {
+  let references = parseExistingLinks(doc)
+
+  return new Promise((resolve, reject) => {
+    for (let x = 0; x < references.length; x++) {
+      if (references[x].url === url) {
+        references[x].existed = true
+        resolve(references[x])
+      }
+    }
+
+    resolve({
+      existed: false,
+      index: getMaxIndex(references),
+      url: url,
+      lineNum: Window.activeTextEditor.document.lineCount
+    })
+  })
+}
+
+module.exports.getNewReference = getNewLink
+
+/**
+   * @typedef {Object} Link
+   * @prop {number} index The reference number used for the inline link
+   * @prop {string} url The url the link points to
+   * @prop {number} lineNum The line number the link resides on
+   */
