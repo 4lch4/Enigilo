@@ -5,7 +5,7 @@ const Window = require('vscode').window
 const urlStarterRegex = /\[\d+\]: /
 
 /** A regex statement to test if the string is a valid url. */
-const urlRegex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,15}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
+const urlRegex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,15}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)|\d+/
 
 /**
  * Parses the provided document for any existing links by testing each line,
@@ -16,7 +16,7 @@ const urlRegex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{
  *
  * @returns {Reference[]} A collection of links found in the document
  */
-const parseExistingLinks = doc => {
+const parseExistingReferences = doc => {
   let links = []
 
   try {
@@ -39,7 +39,7 @@ const parseExistingLinks = doc => {
   return links
 }
 
-module.exports.parseExistingLinks = parseExistingLinks
+module.exports.parseExistingLinks = parseExistingReferences
 
 /**
  * Gets the url of the link referenced in the provided string.
@@ -125,12 +125,15 @@ module.exports.getLinkUrlFromUser = getLinkUrlFromUser
  *
  * @param {Reference[]} references The currently stored references
  */
-const getNewLink = (url, doc) => {
-  let references = parseExistingLinks(doc)
+const getNewReference = (url, doc) => {
+  let references = parseExistingReferences(doc)
 
   return new Promise((resolve, reject) => {
     for (let x = 0; x < references.length; x++) {
       if (references[x].url === url) {
+        references[x].existed = true
+        resolve(references[x])
+      } else if (references[x].index === url) {
         references[x].existed = true
         resolve(references[x])
       }
@@ -145,7 +148,7 @@ const getNewLink = (url, doc) => {
   })
 }
 
-module.exports.getNewReference = getNewLink
+module.exports.getNewReference = getNewReference
 
 /**
    * @typedef {Object} Reference
