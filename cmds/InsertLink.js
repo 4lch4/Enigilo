@@ -12,14 +12,13 @@ const handleEmptySelection = () => { return false }
 module.exports = () => {
   try {
     let editor = Window.activeTextEditor
-    let selection = editor.selection
-    if (selection.isEmpty) handleEmptySelection()
+    if (editor.selection.isEmpty) handleEmptySelection()
 
     lTools.getLinkUrlFromUser().then(url => {
       if (url === undefined || url.length === 0) return
 
       lTools.getNewReference(url, editor.document).then(newLink => {
-        eTools.insertLinkReferenceText(selection, newLink).then(res => {
+        eTools.insertLinkReferenceText(editor.selections, newLink).then(res => {
           if (!newLink.existed) eTools.insertReferenceToFile(newLink)
         }).catch(err => Window.showErrorMessage(err.message))
       }).catch(err => Window.showErrorMessage(err.message))

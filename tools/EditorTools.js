@@ -7,23 +7,27 @@ const Range = vscode.Range
  * text to reference a link using the provided reference number, thereby
  * inserting a link reference in place of your currently selected text.
  *
- * @param {Selection} selection The text to replace with a link reference
+ * @param {Selection[]} selections The selections to replace with a link reference
  * @param {Link} reference The reference number to be used for the link
  *
  * @returns {Promise<boolean>} Did the edit succeed?
  */
-const insertLinkReferenceText = (selection, reference) => {
+const insertLinkReferenceText = (selections, reference) => {
   return new Promise((resolve, reject) => {
     Window.activeTextEditor.edit(builder => {
-      // The OG text to begin with
-      let ogText = Window.activeTextEditor.document.getText(new Range(selection.start, selection.end))
+      for (let x = 0; x < selections.length; x++) {
+        let selection = selections[x]
 
-      // The New School text to replace it with
-      let nsText = `[${ogText}][${reference.index}]`
+        // The OG text to begin with
+        let ogText = Window.activeTextEditor.document.getText(new Range(selection.start, selection.end))
 
-      // Perform the actual replacement
-      builder.replace(selection, nsText)
-    }).then(fulfilled => resolve(fulfilled), err => { if (err) reject(err) })
+        // The New School text to replace it with
+        let nsText = `[${ogText}][${reference.index}]`
+
+        // Perform the actual replacement
+        builder.replace(selection, nsText)
+      }
+    }).then(fulfilled => resolve(fulfilled), err => reject(err))
   })
 }
 
