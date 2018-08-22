@@ -4,6 +4,9 @@ const Window = require('vscode').window
 /** A regex statement to test if the string starts with a link reference. */
 const urlStarterRegex = /\[\d+\]: /
 
+/** A regex statement to test if the string is a valid url. */
+const urlRegex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,15}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
+
 /**
  * Parses the provided document for any existing links by testing each line,
  * starting from the last line and moving up, to see if it matches the
@@ -90,8 +93,6 @@ module.exports.getMaxIndex = getMaxIndex
  * @returns {Promise<String>}
  */
 const getLinkUrlFromUser = (prompt = 'What is the URL this link should point to?') => {
-  let urlRegex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,15}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
-
   return new Promise((resolve, reject) => {
     Window.showInputBox({
       placeHolder: 'https://hasslefree.solutions',
@@ -105,7 +106,7 @@ const getLinkUrlFromUser = (prompt = 'What is the URL this link should point to?
   })
 }
 
-module.exports.getLinkUrl = getLinkUrlFromUser
+module.exports.getLinkUrlFromUser = getLinkUrlFromUser
 
 /**
  * Checks the currently stored references to see if the provided URL has already

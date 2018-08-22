@@ -15,7 +15,7 @@ module.exports = () => {
     let selection = editor.selection
     if (selection.isEmpty) handleEmptySelection()
 
-    lTools.getLinkUrl(Window).then(url => {
+    lTools.getLinkUrlFromUser().then(url => {
       if (url === undefined || url.length === 0) return
 
       lTools.getNewReference(url, editor.document).then(newLink => {
