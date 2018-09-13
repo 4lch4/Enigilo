@@ -1,5 +1,30 @@
 // Used for JSDocs
-const Window = require('vscode').window
+const vscode = require('vscode')
+const Window = vscode.window
+const props = require('./Properties')
+
+/**
+ * Gets the value of the given configuration option from the user/workspace
+ * settings. The option passed in is an enum in order to avoid requesting
+ * properties that don't exist or requesting a property that *does* exist, but
+ * w/ a typo such as an extra character.
+ *
+ * If you're unsure the accepted values, import the  file as
+ * it exports them as an enum.
+ *
+ * @param {props} option The option you want the value of
+ * @requires ./Properties.js
+ */
+module.exports.getConfigProperty = property => {
+  console.log(`getConfigProperty(); property = ${property}`)
+
+  const config = vscode.workspace.getConfiguration('enmeti')
+  const doHave = config.has(property)
+
+  console.log(`doHave = ${doHave}`)
+  if (doHave) return config.get(property)
+  else return undefined
+}
 
 /**
  * Shows a message window to the user using the provided arguments. These args
