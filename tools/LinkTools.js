@@ -1,5 +1,6 @@
 // Used for JSDocs
 const Window = require('vscode').window
+const Doc = Window.activeTextEditor.document
 
 /** A regex statement to test if the string starts with a link reference. */
 const urlStarterRegex = /\[\d+\]: /
@@ -38,8 +39,6 @@ const parseExistingReferences = doc => {
 
   return links
 }
-
-module.exports.parseExistingLinks = parseExistingReferences
 
 /**
  * Gets the url of the link referenced in the provided string.
@@ -90,8 +89,6 @@ const getMaxIndex = links => {
   return maxIndex
 }
 
-module.exports.getMaxIndex = getMaxIndex
-
 /**
  * Displays an InputBox to the user and asks them a question in order to obtain
  * the URL for the link they're working with. If no prompt argument is provided
@@ -115,13 +112,12 @@ const getLinkUrlFromUser = (prompt = 'What is the URL this link should point to?
   })
 }
 
-module.exports.getLinkUrlFromUser = getLinkUrlFromUser
-
 /**
  * Checks the currently stored references to see if the provided URL has already
  * been stored as a URL for another reference.
  *
  * @param {String} url The url you wish to check if it has been stored
+ * @param {Doc}
  *
  * @param {Reference[]} references The currently stored references
  */
@@ -148,6 +144,9 @@ const getNewReference = (url, doc) => {
   })
 }
 
+module.exports.getMaxIndex = getMaxIndex
+module.exports.parseExistingLinks = parseExistingReferences
+module.exports.getLinkUrlFromUser = getLinkUrlFromUser
 module.exports.getNewReference = getNewReference
 
 /**
