@@ -1,4 +1,4 @@
-const { getConfigProperty } = require('../tools/StdTools')
+const sTools = require('../tools/StdTools')
 const lTools = require('../tools/LinkTools')
 const eTools = require('../tools/EditorTools')
 const props = require('../tools/Properties')
@@ -13,7 +13,7 @@ const Window = vscode.window
  * have a selection.
  */
 const handleEmptySelection = () => {
-  if (getConfigProperty(props.handleEmptySelection)) {
+  if (sTools.getConfigProperty(props.handleEmptySelection)) {
     lTools.getLinkUrlFromUser().then(url => {
       if (lTools.checkUrl(url)) {
         lTools.getNewReference(url)
@@ -22,26 +22,29 @@ const handleEmptySelection = () => {
   }
 }
 
-/**
- * The function/command for inserting a link into a Markdown file.
- */
-module.exports = () => {
+const insertLink = async () => {
   try {
     let editor = Window.activeTextEditor
     if (editor.selection.isEmpty) return handleEmptySelection()
 
-    lTools.getLinkUrlFromUser().then(url => {
-      // Verify the provided URL is valid
-      if (lTools.checkUrl(url)) {
-        // If the link is a part of another reference, retrieve it
-        lTools.getNewReference(url, editor.document).then(newLink => {
-          eTools.insertLinkReferenceText(editor.selections, newLink).then(edited => {
-            if (!newLink.existed && edited) eTools.insertReferenceToFile(newLink)
-          }).catch(err => Window.showErrorMessage(err.message))
-        }).catch(err => Window.showErrorMessage(err.message))
-      }
-    }).catch(err => Window.showErrorMessage(err.message))
+    let url = await lTools.getLinkUrlFromUser()
+
+    // Verify the provided URL is valid
+    if (lTools.checkUrl(url)) {
+      // Verify the link doesn't exist as a separate reference if it does, retrieve it
+      let newRef = await lTools.getNewReference(url, editor.document)
+      let edited = await eTools.insertLinkReferenceText(editor.selections, newRef)
+
+      // If the edit succeeded and the link didn't already exist, add it to the file
+      if (edited && !newRef.existed) eTools.insertReferenceToFile(newRef)
+      else if (!edited) sTools.showMessage(Window, 'The selected text could not be edited successfully, please try again.')
+    }
   } catch (error) {
     console.log(error)
   }
 }
+
+/**
+ * The function/command for inserting a link into a Markdown file.
+ */
+module.exports = insertLink
