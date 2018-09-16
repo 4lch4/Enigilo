@@ -108,6 +108,17 @@ const getLinkUrlFromUser = (prompt = 'What is the URL this link should point to?
 }
 
 /**
+ * Checks the provided url to make sure it's not undefined or an empty string.
+ * Returns true or false indicating whether it's valid or not.
+ *
+ * @param {string} url The URL to verify is valid
+ */
+const checkUrl = url => {
+  if (url === undefined || url.length === 0) return false
+  else return true
+}
+
+/**
  * Checks the currently stored references to see if the provided URL has already
  * been stored as a URL for another reference.
  *
@@ -139,10 +150,11 @@ const getNewReference = (url, doc) => {
   })
 }
 
+module.exports.checkUrl = checkUrl
 module.exports.getMaxIndex = getMaxIndex
+module.exports.getNewReference = getNewReference
 module.exports.parseExistingLinks = parseExistingReferences
 module.exports.getLinkUrlFromUser = getLinkUrlFromUser
-module.exports.getNewReference = getNewReference
 
 /**
    * @typedef {Object} Reference
