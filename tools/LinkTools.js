@@ -10,7 +10,7 @@ const regex = require('./RegEx')
  *
  * @param {Doc} doc
  *
- * @returns {Reference[]} A collection of links found in the document
+ * @returns {Reference[]} A collection of links found in the document.
  */
 const parseExistingReferences = doc => {
   let links = []
@@ -38,7 +38,7 @@ const parseExistingReferences = doc => {
 /**
  * Gets the url of the link referenced in the provided string.
  *
- * @param {string} text The line containing the link
+ * @param {string} text The line containing the link.
  */
 const getLinkUrl = text => {
   let start = text.indexOf(']: ') + 3
@@ -49,7 +49,7 @@ const getLinkUrl = text => {
 /**
  * Gets the link index, or number between the brackets, of the provided string.
  *
- * @param {string} text The line containing the link
+ * @param {string} text The line containing the link.
  */
 const getLinkIndex = text => {
   let start = text.indexOf('[') + 1
@@ -64,9 +64,9 @@ const getLinkIndex = text => {
  * last number currently used for an index is 10, then 11 is returned for use as
  * the next references index.
  *
- * @param {Reference[]} links The collection of links to parse
+ * @param {Reference[]} links The collection of links to parse.
  *
- * @returns {number} The highest current reference index plus 1
+ * @returns {number} The highest current reference index plus 1.
  */
 const getMaxIndex = links => {
   /** The maximum index currently known to have been used */
@@ -89,9 +89,9 @@ const getMaxIndex = links => {
  * the URL for the link they're working with. If no prompt argument is provided
  * the default of "What is the URL this link should point to?" is used.
  *
- * @param {String} [prompt] The question to display when asking for the URL
+ * @param {String} [prompt] The question to display when asking for the URL.
  *
- * @returns {Promise<String>} The URL returned via a Promise
+ * @returns {Promise<String>} The URL returned via a Promise.
  */
 const getLinkUrlFromUser = (prompt = 'What is the URL this link should point to?') => {
   return new Promise((resolve, reject) => {
@@ -99,7 +99,7 @@ const getLinkUrlFromUser = (prompt = 'What is the URL this link should point to?
       placeHolder: 'https://hasslefree.solutions',
       prompt: prompt,
       validateInput: val => {
-        if (regex.urlRegex.test(val)) return null
+        if (checkUrl(val)) return null
         else return 'Please provide a value url.'
       },
       ignoreFocusOut: true
@@ -111,10 +111,12 @@ const getLinkUrlFromUser = (prompt = 'What is the URL this link should point to?
  * Checks the provided url to make sure it's not undefined or an empty string.
  * Returns true or false indicating whether it's valid or not.
  *
- * @param {string} url The URL to verify is valid
+ * @param {string} url The URL to verify is valid.
+ *
+ * @returns {boolean} Is the URL valid?
  */
 const checkUrl = url => {
-  if (url === undefined || url.length === 0) return false
+  if (url === undefined || url.length === 0 || regex.urlRegex.test(url)) return false
   else return true
 }
 

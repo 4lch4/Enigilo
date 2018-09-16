@@ -7,8 +7,10 @@ const Range = vscode.Range
  * text to reference a link using the provided reference number, thereby
  * inserting a link reference in place of your currently selected text.
  *
- * @param {Selection[]} selections The selections to replace with a link reference
- * @param {Link} reference The reference number to be used for the link
+ * @async
+ *
+ * @param {Selection[]} selections The selections to replace with a link reference.
+ * @param {Link} reference The reference number to be used for the link.
  *
  * @returns {Promise<boolean>} Did the edit succeed?
  */
@@ -31,15 +33,13 @@ const insertLinkReferenceText = (selections, reference) => {
   })
 }
 
-module.exports.insertLinkReferenceText = insertLinkReferenceText
-
 /**
  * Replaces the currently selected text with the properly formatted Markdown
  * text to reference an image using the provided reference number, thereby
  * inserting an image reference in place of your currently selected text.
  *
- * @param {Selection} selection The text to replace with an image reference
- * @param {Link} reference The reference number to be used for the image
+ * @param {Selection} selection The text to replace with an image reference.
+ * @param {Link} reference The reference number to be used for the image.
  *
  * @returns {Promise<boolean>} Did the edit succeed?
  */
@@ -58,15 +58,13 @@ const insertImageReferenceText = (selection, reference) => {
   })
 }
 
-module.exports.insertImageReferenceText = insertImageReferenceText
-
 /**
  * Inserts a Markdown formatted line for referencing a link by index to the
  * currently active text editor. For example:
  *
  * [0]: https//unsplash.com
  *
- * @param {Link} reference The link/reference to add to the end of the file
+ * @param {Link} reference The link/reference to add to the end of the file.
  *
  * @returns {Promise<boolean>} Did the edit succeed?
  */
@@ -86,3 +84,5 @@ const insertReferenceToFile = reference => {
 }
 
 module.exports.insertReferenceToFile = insertReferenceToFile
+module.exports.insertLinkReferenceText = insertLinkReferenceText
+module.exports.insertImageReferenceText = insertImageReferenceText
