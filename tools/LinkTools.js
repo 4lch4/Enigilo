@@ -1,12 +1,7 @@
 // Used for JSDocs
 const Window = require('vscode').window
 const Doc = Window.activeTextEditor.document
-
-/** A regex statement to test if the string starts with a link reference. */
-const urlStarterRegex = /\[\d+\]: /
-
-/** A regex statement to test if the string is a valid url. */
-const urlRegex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,15}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)|\d+/
+const regex = require('./RegEx')
 
 /**
  * Parses the provided document for any existing links by testing each line,
@@ -24,7 +19,7 @@ const parseExistingReferences = doc => {
     for (let x = doc.lineCount - 1; x >= 0; x--) {
       let lineText = doc.lineAt(x).text
 
-      if (urlStarterRegex.test(lineText)) {
+      if (regex.urlStarterRegex.test(lineText)) {
         links.push({
           index: getLinkIndex(lineText),
           url: getLinkUrl(lineText),
@@ -104,7 +99,7 @@ const getLinkUrlFromUser = (prompt = 'What is the URL this link should point to?
       placeHolder: 'https://hasslefree.solutions',
       prompt: prompt,
       validateInput: val => {
-        if (urlRegex.test(val)) return null
+        if (regex.urlRegex.test(val)) return null
         else return 'Please provide a value url.'
       },
       ignoreFocusOut: true
