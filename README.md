@@ -1,5 +1,7 @@
 # Project Enmeti
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/HF-Solutions/Enmeti.svg)](https://greenkeeper.io/)
+
 Enmeti is a [Visual Studio Code][0] extension that's sole purpose is to make it easier to insert and manage your links in Markdown files.
 
 ## How to Use It
