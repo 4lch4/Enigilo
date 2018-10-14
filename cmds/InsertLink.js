@@ -12,27 +12,23 @@ const Window = vscode.window
  * selection set to true, if so, we perform a separate flow than if they did
  * have a selection.
  */
-const handleEmptySelection = () => {
-  return new Promise((resolve, reject) => {
-    if (getConfigProperty(props.handleEmptySelection)) {
-      let editor = Window.activeTextEditor
+const handleEmptySelection = async () => {
+  if (getConfigProperty(props.handleEmptySelection)) {
+    let editor = Window.activeTextEditor
 
-      getLinkUrlFromUser().then(url => {
-        getLinkTextFromUser().then(linkText => {
-          getNewReference(url, editor.document).then(newRef => {
-            editor.edit(builder => {
-              let newText = `[${linkText}][${newRef.index}]`
+    let url = await getLinkUrlFromUser()
+    let linkText = await getLinkTextFromUser()
+    let newRef = await getNewReference(url, editor.document)
 
-              builder.insert(editor.selection.start, newText)
-            }).then(edited => {
-              if (edited && !newRef.existed) insertReferenceToFile(newRef)
-              else if (!edited) resolve(showMessage(Window, 'The text could not be edited successfully, please try again.'))
-            }, err => { if (err) reject(err) })
-          })
-        })
-      })
-    }
-  })
+    let edited = await editor.edit(builder => {
+      let newText = `[${linkText}][${newRef.index}]`
+
+      builder.insert(editor.selection.start, newText)
+    })
+
+    if (edited && !newRef.existed) insertReferenceToFile(newRef)
+    else if (!edited) showMessage(Window, 'The text could not be edited successfully, please try again.')
+  }
 }
 
 const insertLink = async () => {
