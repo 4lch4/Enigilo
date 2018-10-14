@@ -1,6 +1,6 @@
-const sTools = require('../tools/StdTools')
-const lTools = require('../tools/LinkTools')
-const eTools = require('../tools/EditorTools')
+const { getConfigProperty, showMessage } = require('../tools/StdTools')
+const { getLinkUrlFromUser, getNewReference, getLinkTextFromUser } = require('../tools/LinkTools')
+const { insertReferenceToFile, insertLinkReferenceText } = require('../tools/EditorTools')
 const props = require('../tools/Properties')
 
 const vscode = require('vscode')
@@ -13,13 +13,26 @@ const Window = vscode.window
  * have a selection.
  */
 const handleEmptySelection = () => {
-  if (sTools.getConfigProperty(props.handleEmptySelection)) {
-    lTools.getLinkUrlFromUser().then(url => {
-      if (lTools.checkUrl(url)) {
-        lTools.getNewReference(url)
-      }
-    })
-  }
+  return new Promise((resolve, reject) => {
+    if (getConfigProperty(props.handleEmptySelection)) {
+      let editor = Window.activeTextEditor
+
+      getLinkUrlFromUser().then(url => {
+        getLinkTextFromUser().then(linkText => {
+          getNewReference(url, editor.document).then(newRef => {
+            editor.edit(builder => {
+              let newText = `[${linkText}][${newRef.index}]`
+
+              builder.insert(editor.selection.start, newText)
+            }).then(edited => {
+              if (edited && !newRef.existed) insertReferenceToFile(newRef)
+              else if (!edited) resolve(showMessage(Window, 'The text could not be edited successfully, please try again.'))
+            }, err => { if (err) reject(err) })
+          })
+        })
+      })
+    }
+  })
 }
 
 const insertLink = async () => {
@@ -27,18 +40,15 @@ const insertLink = async () => {
     let editor = Window.activeTextEditor
     if (editor.selection.isEmpty) return handleEmptySelection()
 
-    let url = await lTools.getLinkUrlFromUser()
+    let url = await getLinkUrlFromUser()
 
-    // Verify the provided URL is valid
-    if (lTools.checkUrl(url)) {
-      // Verify the link doesn't exist as a separate reference if it does, retrieve it
-      let newRef = await lTools.getNewReference(url, editor.document)
-      let edited = await eTools.insertLinkReferenceText(editor.selections, newRef)
+    // Verify the link doesn't exist as a separate reference if it does, retrieve it
+    let newRef = await getNewReference(url, editor.document)
+    let edited = await insertLinkReferenceText(editor.selections, newRef)
 
-      // If the edit succeeded and the link didn't already exist, add it to the file
-      if (edited && !newRef.existed) eTools.insertReferenceToFile(newRef)
-      else if (!edited) sTools.showMessage(Window, 'The selected text could not be edited successfully, please try again.')
-    }
+    // If the edit succeeded and the link didn't already exist, add it to the file
+    if (edited && !newRef.existed) insertReferenceToFile(newRef)
+    else if (!edited) showMessage(Window, 'The selected text could not be edited successfully, please try again.')
   } catch (error) {
     console.log(error)
   }

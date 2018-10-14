@@ -30,7 +30,7 @@
         "title": "Insertion Settings",
         "type": "object",
         "properties": {
-          "enmeti.insertOnBlankSelection": {
+          "enmeti.insertOnEmptySelection": {
             "type": "boolean",
             "default": true,
             "description": "Insert links/images when no text is selected."

@@ -99,8 +99,22 @@ const getLinkUrlFromUser = (prompt = 'What is the URL this link should point to?
       placeHolder: 'https://hasslefree.solutions',
       prompt: prompt,
       validateInput: val => {
-        if (checkUrl(val)) return null
+        if (!checkUrl(val)) return null
         else return 'Please provide a value url.'
+      },
+      ignoreFocusOut: true
+    }).then(res => resolve(res), err => { if (err) reject(err) })
+  })
+}
+
+const getLinktextFromUser = (prompt = 'What should the reference text for this URL be?') => {
+  return new Promise((resolve, reject) => {
+    Window.showInputBox({
+      placeHolder: 'New Link',
+      prompt: prompt,
+      validateInput: val => {
+        if (val.length > 0) return null
+        else return 'Please provide a non-empty String.'
       },
       ignoreFocusOut: true
     }).then(res => resolve(res), err => { if (err) reject(err) })
@@ -127,7 +141,7 @@ const checkUrl = url => {
  * @param {String} url The url you wish to check if it has been stored
  * @param {Doc}
  *
- * @param {Reference[]} references The currently stored references
+ * @returns {Promise<Reference>} The currently stored reference
  */
 const getNewReference = (url, doc) => {
   let references = parseExistingReferences(doc)
@@ -157,10 +171,12 @@ module.exports.getMaxIndex = getMaxIndex
 module.exports.getNewReference = getNewReference
 module.exports.parseExistingLinks = parseExistingReferences
 module.exports.getLinkUrlFromUser = getLinkUrlFromUser
+module.exports.getLinkTextFromUser = getLinktextFromUser
 
 /**
    * @typedef {Object} Reference
    * @prop {number} index The reference number used for the inline link
    * @prop {string} url The url the link points to
    * @prop {number} lineNum The line number the link resides on
+   * @prop {boolean} existed Whether or not the reference existed previously
    */
