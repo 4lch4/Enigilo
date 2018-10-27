@@ -15,8 +15,8 @@ As you can see in the gif, you can also use the default `Ctrl+Shift+I` keybindin
 As usual, any and all input is welcome and much appreciated 😊
 
 [0]: http://code.visualstudio.com
-[1]: https://i.imgur.com/nBSbHg0.gif
-[2]: https://i.imgur.com/7NKAy7e.png
+[1]: https://i.imgur.com/XOLPFvF.gif
+[2]: https://i.imgur.com/zOo6U4E.png
 [3]: https://dev.to/link2twenty/comment/4k81
 [4]: https://dev.to/link2twenty
 [5]: https://code.visualstudio.com/docs/getstarted/keybindings
