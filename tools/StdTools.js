@@ -1,8 +1,3 @@
-// Used for JSDocs
-const vscode = require('vscode')
-const Window = vscode.window
-const props = require('./Properties')
-
 /**
  * Gets the value of the given configuration option from the user/workspace
  * settings. The option passed in is an enum in order to avoid requesting
@@ -52,6 +47,11 @@ module.exports.showMessage = (window, text, options = false, items = false) => {
     }
   })
 }
+
+// Used for JSDocs
+const vscode = require('vscode')
+const Window = vscode.window
+const props = require('./Properties')
 
 /**
  * @typedef {Object} MessageOptions
