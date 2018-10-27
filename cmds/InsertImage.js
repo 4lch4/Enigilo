@@ -15,7 +15,7 @@ const handleEmptySelection = async () => {
     let newRef = await lTools.getNewReference(url, editor.document)
 
     let edited = await editor.edit(builder => {
-      let newText = `[${linkText}][${newRef.index}]`
+      let newText = `![${linkText}][${newRef.index}]`
 
       builder.insert(editor.selection.start, newText)
     })
