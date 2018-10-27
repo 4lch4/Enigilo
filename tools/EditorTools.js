@@ -14,14 +14,16 @@ const Range = vscode.Range
  *
  * @returns {Promise<boolean>} Did the edit succeed?
  */
-const insertLinkReferenceText = (selections, reference) => {
+const insertLinkReferenceText = (selections, reference, ogText = undefined) => {
   return new Promise((resolve, reject) => {
     Window.activeTextEditor.edit(builder => {
       for (let x = 0; x < selections.length; x++) {
         let selection = selections[x]
 
         // The OG text to begin with
-        let ogText = Window.activeTextEditor.document.getText(new Range(selection.start, selection.end))
+        if (ogText === undefined) {
+          ogText = Window.activeTextEditor.document.getText(new Range(selection.start, selection.end))
+        }
 
         // The New School text to replace it with
         let nsText = `[${ogText}][${reference.index}]`
@@ -43,11 +45,13 @@ const insertLinkReferenceText = (selections, reference) => {
  *
  * @returns {Promise<boolean>} Did the edit succeed?
  */
-const insertImageReferenceText = (selection, reference) => {
+const insertImageReferenceText = (selection, reference, ogText = undefined) => {
   return new Promise((resolve, reject) => {
     Window.activeTextEditor.edit(builder => {
       // The OG text to begin with
-      let ogText = Window.activeTextEditor.document.getText(new Range(selection.start, selection.end))
+      if (ogText === undefined) {
+        ogText = Window.activeTextEditor.document.getText(new Range(selection.start, selection.end))
+      }
 
       // The New School text to replace it with
       let nsText = `![${ogText}][${reference.index}]`
