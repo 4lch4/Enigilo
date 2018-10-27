@@ -6,6 +6,10 @@ exports.activate = () => {
 
   vscode.commands.registerCommand('enmeti.insertLink', require(path.join(__dirname, 'cmds', 'InsertLink')))
   vscode.commands.registerCommand('enmeti.insertImage', require(path.join(__dirname, 'cmds', 'InsertImage')))
+  vscode.workspace.onDidChangeConfiguration(e => {
+    console.log(`onDidChangeConfiguration called...`)
+    console.log(`e.affectsConfiguration('enmeti') = ${e.affectsConfiguration('enmeti')}`)
+  })
 }
 
 exports.deactivate = () => {

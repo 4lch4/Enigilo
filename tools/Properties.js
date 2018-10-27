@@ -10,5 +10,6 @@
  */
 module.exports = {
   handleEmptySelection: 'insertOnEmptySelection',
+  displayLanguage: 'displayLanguage',
   referenceSection: 'addLinkToReferenceSection'
 }

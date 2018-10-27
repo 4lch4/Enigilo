@@ -1,6 +1,12 @@
 const Window = require('vscode').window
 const regex = require('./RegEx')
 
+const sTools = require('./StdTools')
+const props = require('./Properties')
+
+const Strings = require('../tools/Strings')
+const strings = new Strings(sTools.getConfigProperty(props.displayLanguage))
+
 /**
  * Parses the provided document for any existing links by testing each line,
  * starting from the last line and moving up, to see if it matches the
@@ -91,28 +97,28 @@ const getMaxIndex = links => {
  *
  * @returns {Promise<String>} The URL returned via a Promise.
  */
-const getLinkUrlFromUser = (prompt = 'What is the URL this link should point to?') => {
+const getLinkUrlFromUser = (prompt = strings.getText('insertLink', 'getLinkUrlFromuser')) => {
   return new Promise((resolve, reject) => {
     Window.showInputBox({
       placeHolder: 'https://hasslefree.solutions',
       prompt: prompt,
       validateInput: val => {
         if (!checkUrl(val)) return null
-        else return 'Please provide a value url.'
+        else return strings.getText('standard', 'invalidUrl')
       },
       ignoreFocusOut: true
     }).then(res => resolve(res), err => { if (err) reject(err) })
   })
 }
 
-const getLinktextFromUser = (prompt = 'What should the reference text for this URL be?') => {
+const getLinkTextFromUser = (prompt = strings.getText('insertLink', 'getLinkTextFromUser')) => {
   return new Promise((resolve, reject) => {
     Window.showInputBox({
-      placeHolder: 'New Link',
+      placeHolder: strings.getText('standard', 'newLink'),
       prompt: prompt,
       validateInput: val => {
         if (val.length > 0) return null
-        else return 'Please provide a non-empty String.'
+        else return strings.getText('standard', 'invalidReferenceText')
       },
       ignoreFocusOut: true
     }).then(res => resolve(res), err => { if (err) reject(err) })
@@ -169,7 +175,7 @@ module.exports.getMaxIndex = getMaxIndex
 module.exports.getNewReference = getNewReference
 module.exports.parseExistingLinks = parseExistingReferences
 module.exports.getLinkUrlFromUser = getLinkUrlFromUser
-module.exports.getLinkTextFromUser = getLinktextFromUser
+module.exports.getLinkTextFromUser = getLinkTextFromUser
 
 /**
    * @typedef {Object} Reference

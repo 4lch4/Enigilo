@@ -3,6 +3,9 @@ const lTools = require('../tools/LinkTools')
 const eTools = require('../tools/EditorTools')
 const props = require('../tools/Properties')
 
+const Strings = require('../tools/Strings')
+const strings = new Strings(sTools.getConfigProperty(props.displayLanguage))
+
 const vscode = require('vscode')
 const Window = vscode.window
 
@@ -23,7 +26,7 @@ const handleEmptySelection = async () => {
     let edited = await eTools.insertLinkReferenceText(editor.selections, newRef, linkText)
 
     if (edited && !newRef.existed) eTools.insertReferenceToFile(newRef)
-    else if (!edited) sTools.showMessage(Window, 'The text could not be edited successfully, please try again.')
+    else if (!edited) sTools.showMessage(Window, strings.getText('standard', 'emptyEditFail'))
   }
 }
 
@@ -40,7 +43,7 @@ const insertLink = async () => {
 
     // If the edit succeeded and the link didn't already exist, add it to the file
     if (edited && !newRef.existed) eTools.insertReferenceToFile(newRef)
-    else if (!edited) sTools.showMessage(Window, 'The selected text could not be edited successfully, please try again.')
+    else if (!edited) sTools.showMessage(Window, strings.getText('standard', 'selectedEditFail'))
   } catch (error) {
     console.log(error)
   }

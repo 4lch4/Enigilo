@@ -33,7 +33,18 @@
           "enmeti.insertOnEmptySelection": {
             "type": "boolean",
             "default": true,
-            "description": "Insert links/images when no text is selected."
+            "description": "Insert links/images when no text is selected.",
+            "scope": "resource"
+          },
+          "enmeti.displayLanguage": {
+            "type": "string",
+            "description": "Which language would you like Enmeti to use?",
+            "enum": [
+              "English",
+              "Spanish"
+            ],
+            "default": "English",
+            "scope": "resource"
           }
         }
       }
