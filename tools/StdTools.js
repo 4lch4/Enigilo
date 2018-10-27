@@ -16,12 +16,9 @@ const props = require('./Properties')
  * @requires ./Properties.js
  */
 module.exports.getConfigProperty = property => {
-  console.log(`getConfigProperty(); property = ${property}`)
-
   const config = vscode.workspace.getConfiguration('enmeti')
   const doHave = config.has(property)
 
-  console.log(`doHave = ${doHave}`)
   if (doHave) return config.get(property)
   else return undefined
 }
