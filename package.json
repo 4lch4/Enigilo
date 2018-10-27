@@ -85,11 +85,11 @@
     "publish": "vsce publish && vsce package && mv enmeti*.vsix build/"
   },
   "devDependencies": {
-    "typescript": "^3.1.3",
-    "vscode": "^1.1.21",
+    "typescript": "3.1.3",
+    "vscode": "1.1.21",
     "standard": "12.0.1",
-    "@types/node": "^10.12.0",
-    "@types/mocha": "^5.2.5"
+    "@types/node": "10.12.0",
+    "@types/mocha": "5.2.5"
   },
   "engines": {
     "vscode": "^1.25.0"
@@ -100,7 +100,9 @@
   "keywords": [
     "Markdown",
     "Links",
-    "Link Management"
+    "Link Management",
+    "Images",
+    "Image Management"
   ],
   "markdown": "github"
 }
