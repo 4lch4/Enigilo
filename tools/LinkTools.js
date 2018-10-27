@@ -1,11 +1,5 @@
-// Used for JSDocs
 const Window = require('vscode').window
-
-/** A regex statement to test if the string starts with a link reference. */
-const urlStarterRegex = /\[\d+\]: /
-
-/** A regex statement to test if the string is a valid url. */
-const urlRegex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,15}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
+const regex = require('./RegEx')
 
 /**
  * Parses the provided document for any existing links by testing each line,
@@ -14,16 +8,16 @@ const urlRegex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{
  *
  * @param {Doc} doc
  *
- * @returns {Link[]} A collection of links found in the document
+ * @returns {Reference[]} A collection of links found in the document.
  */
-const parseExistingLinks = doc => {
+const parseExistingReferences = doc => {
   let links = []
 
   try {
     for (let x = doc.lineCount - 1; x >= 0; x--) {
       let lineText = doc.lineAt(x).text
 
-      if (urlStarterRegex.test(lineText)) {
+      if (regex.urlStarterRegex.test(lineText)) {
         links.push({
           index: getLinkIndex(lineText),
           url: getLinkUrl(lineText),
@@ -39,12 +33,10 @@ const parseExistingLinks = doc => {
   return links
 }
 
-module.exports.parseExistingLinks = parseExistingLinks
-
 /**
  * Gets the url of the link referenced in the provided string.
  *
- * @param {string} text The line containing the link
+ * @param {string} text The line containing the link.
  */
 const getLinkUrl = text => {
   let start = text.indexOf(']: ') + 3
@@ -55,7 +47,7 @@ const getLinkUrl = text => {
 /**
  * Gets the link index, or number between the brackets, of the provided string.
  *
- * @param {string} text The line containing the link
+ * @param {string} text The line containing the link.
  */
 const getLinkIndex = text => {
   let start = text.indexOf('[') + 1
@@ -65,10 +57,14 @@ const getLinkIndex = text => {
 }
 
 /**
+ * Parse the given collection of links and determine the highest number value
+ * for the reference index and returns that number plus 1. For example, if the
+ * last number currently used for an index is 10, then 11 is returned for use as
+ * the next references index.
  *
- * @param {Link[]} links
+ * @param {Reference[]} links The collection of links to parse.
  *
- * @returns {number}
+ * @returns {number} The highest current reference index plus 1.
  */
 const getMaxIndex = links => {
   /** The maximum index currently known to have been used */
@@ -80,17 +76,20 @@ const getMaxIndex = links => {
     if ((link.index - maxIndex) > 0) maxIndex = link.index
   })
 
+  // Add one so it can be used for the next reference index
   maxIndex++
 
   return maxIndex
 }
 
-module.exports.getMaxIndex = getMaxIndex
-
 /**
+ * Displays an InputBox to the user and asks them a question in order to obtain
+ * the URL for the link they're working with. If no prompt argument is provided
+ * the default of "What is the URL this link should point to?" is used.
  *
- * @param {Window} window
- * @returns {Promise<String>}
+ * @param {String} [prompt] The question to display when asking for the URL.
+ *
+ * @returns {Promise<String>} The URL returned via a Promise.
  */
 const getLinkUrlFromUser = (prompt = 'What is the URL this link should point to?') => {
   return new Promise((resolve, reject) => {
@@ -98,7 +97,7 @@ const getLinkUrlFromUser = (prompt = 'What is the URL this link should point to?
       placeHolder: 'https://hasslefree.solutions',
       prompt: prompt,
       validateInput: val => {
-        if (urlRegex.test(val)) return null
+        if (!checkUrl(val)) return null
         else return 'Please provide a value url.'
       },
       ignoreFocusOut: true
@@ -106,21 +105,51 @@ const getLinkUrlFromUser = (prompt = 'What is the URL this link should point to?
   })
 }
 
-module.exports.getLinkUrlFromUser = getLinkUrlFromUser
+const getLinktextFromUser = (prompt = 'What should the reference text for this URL be?') => {
+  return new Promise((resolve, reject) => {
+    Window.showInputBox({
+      placeHolder: 'New Link',
+      prompt: prompt,
+      validateInput: val => {
+        if (val.length > 0) return null
+        else return 'Please provide a non-empty String.'
+      },
+      ignoreFocusOut: true
+    }).then(res => resolve(res), err => { if (err) reject(err) })
+  })
+}
+
+/**
+ * Checks the provided url to make sure it's not undefined or an empty string.
+ * Returns true or false indicating whether it's valid or not.
+ *
+ * @param {string} url The URL to verify is valid.
+ *
+ * @returns {boolean} Is the URL valid?
+ */
+const checkUrl = url => {
+  if (url === undefined || url.length === 0 || regex.urlRegex.test(url)) return false
+  else return true
+}
 
 /**
  * Checks the currently stored references to see if the provided URL has already
  * been stored as a URL for another reference.
  *
  * @param {String} url The url you wish to check if it has been stored
- * @param {Link[]} references The currently stored references
+ * @param {Doc}
+ *
+ * @returns {Promise<Reference>} The currently stored reference
  */
-const getNewLink = (url, doc) => {
-  let references = parseExistingLinks(doc)
+const getNewReference = (url, doc) => {
+  let references = parseExistingReferences(doc)
 
   return new Promise((resolve, reject) => {
     for (let x = 0; x < references.length; x++) {
       if (references[x].url === url) {
+        references[x].existed = true
+        resolve(references[x])
+      } else if (references[x].index === url) {
         references[x].existed = true
         resolve(references[x])
       }
@@ -135,11 +164,17 @@ const getNewLink = (url, doc) => {
   })
 }
 
-module.exports.getNewReference = getNewLink
+module.exports.checkUrl = checkUrl
+module.exports.getMaxIndex = getMaxIndex
+module.exports.getNewReference = getNewReference
+module.exports.parseExistingLinks = parseExistingReferences
+module.exports.getLinkUrlFromUser = getLinkUrlFromUser
+module.exports.getLinkTextFromUser = getLinktextFromUser
 
 /**
-   * @typedef {Object} Link
+   * @typedef {Object} Reference
    * @prop {number} index The reference number used for the inline link
    * @prop {string} url The url the link points to
    * @prop {number} lineNum The line number the link resides on
+   * @prop {boolean} existed Whether or not the reference existed previously
    */

@@ -1,30 +1,56 @@
-const lTools = require('../tools/LinkTools')
-const eTools = require('../tools/EditorTools')
+const { getConfigProperty, showMessage } = require('../tools/StdTools')
+const { getLinkUrlFromUser, getNewReference, getLinkTextFromUser } = require('../tools/LinkTools')
+const { insertReferenceToFile, insertLinkReferenceText } = require('../tools/EditorTools')
+const props = require('../tools/Properties')
 
 const vscode = require('vscode')
 const Window = vscode.window
 
-const handleEmptySelection = () => { return false }
-
 /**
- * The function/command for inserting a link into a Markdown file.
+ * Handles when a user performs the InsertLink command without any text actually
+ * selected. We first detemine if they have the property to insert on an empty
+ * selection set to true, if so, we perform a separate flow than if they did
+ * have a selection.
  */
-module.exports = () => {
+const handleEmptySelection = async () => {
+  if (getConfigProperty(props.handleEmptySelection)) {
+    let editor = Window.activeTextEditor
+
+    let url = await getLinkUrlFromUser()
+    let linkText = await getLinkTextFromUser()
+    let newRef = await getNewReference(url, editor.document)
+
+    let edited = await editor.edit(builder => {
+      let newText = `[${linkText}][${newRef.index}]`
+
+      builder.insert(editor.selection.start, newText)
+    })
+
+    if (edited && !newRef.existed) insertReferenceToFile(newRef)
+    else if (!edited) showMessage(Window, 'The text could not be edited successfully, please try again.')
+  }
+}
+
+const insertLink = async () => {
   try {
     let editor = Window.activeTextEditor
-    let selection = editor.selection
-    if (selection.isEmpty) handleEmptySelection()
+    if (editor.selection.isEmpty) return handleEmptySelection()
 
-    lTools.getLinkUrlFromUser().then(url => {
-      if (url === undefined || url.length === 0) return
+    let url = await getLinkUrlFromUser()
 
-      lTools.getNewReference(url, editor.document).then(newLink => {
-        eTools.insertLinkReferenceText(selection, newLink).then(res => {
-          if (!newLink.existed) eTools.insertReferenceToFile(newLink)
-        }).catch(err => Window.showErrorMessage(err.message))
-      }).catch(err => Window.showErrorMessage(err.message))
-    }).catch(err => Window.showErrorMessage(err.message))
+    // Verify the link doesn't exist as a separate reference if it does, retrieve it
+    let newRef = await getNewReference(url, editor.document)
+    let edited = await insertLinkReferenceText(editor.selections, newRef)
+
+    // If the edit succeeded and the link didn't already exist, add it to the file
+    if (edited && !newRef.existed) insertReferenceToFile(newRef)
+    else if (!edited) showMessage(Window, 'The selected text could not be edited successfully, please try again.')
   } catch (error) {
     console.log(error)
   }
 }
+
+/**
+ * The function/command for inserting a link into a Markdown file.
+ */
+module.exports = insertLink
