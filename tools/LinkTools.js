@@ -1,6 +1,4 @@
-// Used for JSDocs
 const Window = require('vscode').window
-const Doc = Window.activeTextEditor.document
 const regex = require('./RegEx')
 
 /**
