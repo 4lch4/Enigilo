@@ -6,8 +6,7 @@ const eTools = require('../tools/EditorTools')
 const vscode = require('vscode')
 const Window = vscode.window
 
-const Strings = require('../tools/Strings')
-const strings = new Strings(sTools.getConfigProperty(props.displayLanguage))
+const strings = require('../tools/Strings')
 
 const handleEmptySelection = async () => {
   if (sTools.getConfigProperty(props.handleEmptySelection)) {

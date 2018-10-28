@@ -1,28 +1,62 @@
-/**
- * The default Strings class, created so Enmeti can be translated into various
- * languages. To use the class, create a new instance with only one value passed
- * to the constructor, which language you wish to use. The currently supported
- * languages are:
- *
- * - English
- */
-class Strings {
-  /**
-   * The default constructor of the Strings class which accepts only one
-   * parameter, the name of the language you wish to use (case-insensitive).
-   *
-   * @param {String} lang The language you wish to receive strings in.
-   */
-  constructor (lang) {
-    switch (lang.toLowerCase()) {
-      case 'english': this.lang = require('./strings/en_US'); break
-      case 'spanish': this.lang = require('./strings/es_US'); break
-    }
+// #region English
+const english = {
+  insertImage: {
+    getLinkUrlFromUser: 'What is the URL/path of the image you wish to display?',
+    getLinkTextFromUser: 'What should the reference text be for this image URL?'
+  },
+  insertLink: {
+    getLinkUrlFromuser: 'What is the URL this link should point to?',
+    getLinkTextFromUser: 'What should the reference text for this URL be?'
+  },
+  standard: {
+    selectedEditFail: 'The selected text could not be edited successfully, please try again.',
+    emptyEditFail: 'The text could not be edited successfully, please try again.',
+    invalidUrl: 'Please provide a valid URL.',
+    invalidReferenceText: 'Please provide a non-empty String.',
+    newLink: 'New Link'
   }
+}
+// #endregion English
 
-  getText (category, key) {
-    return this.lang[category][key]
+// #region Spanish
+const spanish = {
+  insertImage: {
+    getLinkUrlFromUser: 'This is Spanish, yo.',
+    getLinkTextFromUser: 'This is Spanish, yo.'
+  },
+  insertLink: {
+    getLinkUrlFromuser: 'This is Spanish, yo.',
+    getLinkTextFromUser: 'This is Spanish, yo.'
+  },
+  standard: {
+    selectedEditFail: 'This is Spanish, yo.',
+    emptyEditFail: 'This is Spanish, yo.',
+    invalidUrl: 'This is Spanish, yo.',
+    invalidReferenceText: 'This is Spanish, yo.',
+    newLink: 'This is Spanish, yo.'
+  }
+}
+// #endregion Spanish
+
+const sTools = require('./StdTools')
+const props = require('./Properties')
+
+/**
+ * Gets the text value for the current language using the provided category and
+ * key parameters.
+ *
+ * @param {String} category The category/command you want to pull the String from
+ * @param {String} key The key for the String you want the vaue of.
+ */
+const getText = (category, key) => {
+  let lang = sTools.getConfigProperty(props.displayLanguage)
+
+  switch (lang.toLowerCase()) {
+    case 'english': return english[category][key]
+    case 'spanish': return spanish[category][key]
+
+    default: return undefined
   }
 }
 
-module.exports = Strings
+module.exports.getText = getText

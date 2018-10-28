@@ -3,11 +3,12 @@ const lTools = require('../tools/LinkTools')
 const eTools = require('../tools/EditorTools')
 const props = require('../tools/Properties')
 
-const Strings = require('../tools/Strings')
-const strings = new Strings(sTools.getConfigProperty(props.displayLanguage))
+const strings = require('../tools/Strings')
 
 const vscode = require('vscode')
 const Window = vscode.window
+
+// TODO: When the esc key is pressed, make sure nothing is inserted.
 
 /**
  * Handles when a user performs the InsertLink command without any text actually

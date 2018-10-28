@@ -4,8 +4,7 @@ const regex = require('./RegEx')
 const sTools = require('./StdTools')
 const props = require('./Properties')
 
-const Strings = require('../tools/Strings')
-const strings = new Strings(sTools.getConfigProperty(props.displayLanguage))
+const strings = require('../tools/Strings')
 
 /**
  * Parses the provided document for any existing links by testing each line,
