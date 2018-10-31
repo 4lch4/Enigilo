@@ -79,7 +79,7 @@ const insertReferenceToFile = reference => {
       let position = new vscode.Position(reference.lineNum, 0)
 
       // The formatted string containing the index and url
-      let content = `\n[${reference.index}]: ${reference.url}`
+      let content = `[${reference.index}]: ${reference.url}\n`
 
       // Insert the url reference at the bottom of the file
       builder.insert(position, content)
@@ -87,6 +87,27 @@ const insertReferenceToFile = reference => {
   })
 }
 
+const Doc = Window.activeTextEditor.document
+
+/**
+ * Gets the last line in the document that is a reference link. This is to help
+ * avoid adding lines at the end of a file if there's a group of links followed
+ * by a blank line.
+ *
+ * @param {Doc} doc
+ */
+const getLastReferenceLine = doc => {
+  let lastLine = -1
+
+  for (let x = 0; x < doc.lineCount; x++) {
+    let line = doc.lineAt(x)
+    if (line.text.match(/^\[\d+\]:/)) lastLine = x
+  }
+
+  return lastLine + 1
+}
+
+module.exports.getLastReferenceLine = getLastReferenceLine
 module.exports.insertReferenceToFile = insertReferenceToFile
 module.exports.insertLinkReferenceText = insertLinkReferenceText
 module.exports.insertImageReferenceText = insertImageReferenceText

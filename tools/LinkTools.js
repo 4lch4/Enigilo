@@ -1,8 +1,7 @@
 const Window = require('vscode').window
 const regex = require('./RegEx')
 
-const sTools = require('./StdTools')
-const props = require('./Properties')
+const eTools = require('./EditorTools')
 
 const strings = require('../tools/Strings')
 
@@ -164,7 +163,7 @@ const getNewReference = (url, doc) => {
       existed: false,
       index: getMaxIndex(references),
       url: url,
-      lineNum: Window.activeTextEditor.document.lineCount
+      lineNum: eTools.getLastReferenceLine(Window.activeTextEditor.document)
     })
   })
 }
