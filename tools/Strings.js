@@ -66,6 +66,8 @@ const french = {
 const sTools = require('./StdTools')
 const props = require('./Properties')
 
+const lang = sTools.getConfigProperty(props.displayLanguage)
+
 /**
  * Gets the text value for the current language using the provided category and
  * key parameters.
@@ -74,8 +76,6 @@ const props = require('./Properties')
  * @param {String} key The key for the String you want the vaue of.
  */
 const getText = (category, key) => {
-  let lang = sTools.getConfigProperty(props.displayLanguage)
-
   switch (lang.toLowerCase()) {
     case 'english': return english[category][key]
     case 'spanish': return spanish[category][key]

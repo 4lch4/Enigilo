@@ -14,9 +14,20 @@ As you can see in the gif, you can also use the default `Ctrl+Shift+I` keybindin
 
 As usual, any and all input is welcome and much appreciated 😊
 
+## Changelog
+### 1.2.0
+
+- Added support for different languages
+  - So far English, Spanish, and French are the only supported languages with English being the default.
+  - You can set which language you'd like in your settings with the `enmeti.displayLanguage` property.
+  - Changing the language does require a restart/reload of Visual Studio Code.
+  - If you wish to fix any of the existing translations or add new ones, please open a PR or contact [Alcha][6]
+- Fixed Enmeti from trying to insert a link when the **ESC** key is used on an **InputBox**.
+
 [0]: http://code.visualstudio.com
 [1]: https://i.imgur.com/XOLPFvF.gif
 [2]: https://i.imgur.com/zOo6U4E.png
 [3]: https://dev.to/link2twenty/comment/4k81
 [4]: https://dev.to/link2twenty
 [5]: https://code.visualstudio.com/docs/getstarted/keybindings
+[6]: https://alcha.org
