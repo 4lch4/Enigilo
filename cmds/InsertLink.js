@@ -1,10 +1,14 @@
-const { getConfigProperty, showMessage } = require('../tools/StdTools')
-const { getLinkUrlFromUser, getNewReference, getLinkTextFromUser } = require('../tools/LinkTools')
-const { insertReferenceToFile, insertLinkReferenceText } = require('../tools/EditorTools')
+const sTools = require('../tools/StdTools')
+const lTools = require('../tools/LinkTools')
+const eTools = require('../tools/EditorTools')
 const props = require('../tools/Properties')
+
+const strings = require('../tools/Strings')
 
 const vscode = require('vscode')
 const Window = vscode.window
+
+// TODO: When the esc key is pressed, make sure nothing is inserted.
 
 /**
  * Handles when a user performs the InsertLink command without any text actually
@@ -13,21 +17,17 @@ const Window = vscode.window
  * have a selection.
  */
 const handleEmptySelection = async () => {
-  if (getConfigProperty(props.handleEmptySelection)) {
+  if (sTools.getConfigProperty(props.handleEmptySelection)) {
     let editor = Window.activeTextEditor
 
-    let url = await getLinkUrlFromUser()
-    let linkText = await getLinkTextFromUser()
-    let newRef = await getNewReference(url, editor.document)
+    let url = await lTools.getLinkUrlFromUser()
+    let linkText = await lTools.getLinkTextFromUser()
 
-    let edited = await editor.edit(builder => {
-      let newText = `[${linkText}][${newRef.index}]`
+    let newRef = await lTools.getNewReference(url, editor.document)
+    let edited = await eTools.insertLinkReferenceText(editor.selections, newRef, linkText)
 
-      builder.insert(editor.selection.start, newText)
-    })
-
-    if (edited && !newRef.existed) insertReferenceToFile(newRef)
-    else if (!edited) showMessage(Window, 'The text could not be edited successfully, please try again.')
+    if (edited && !newRef.existed) eTools.insertReferenceToFile(newRef)
+    else if (!edited) sTools.showMessage(Window, strings.getText('standard', 'emptyEditFail'))
   }
 }
 
@@ -36,15 +36,15 @@ const insertLink = async () => {
     let editor = Window.activeTextEditor
     if (editor.selection.isEmpty) return handleEmptySelection()
 
-    let url = await getLinkUrlFromUser()
+    let url = await lTools.getLinkUrlFromUser()
 
     // Verify the link doesn't exist as a separate reference if it does, retrieve it
-    let newRef = await getNewReference(url, editor.document)
-    let edited = await insertLinkReferenceText(editor.selections, newRef)
+    let newRef = await lTools.getNewReference(url, editor.document)
+    let edited = await eTools.insertLinkReferenceText(editor.selections, newRef)
 
     // If the edit succeeded and the link didn't already exist, add it to the file
-    if (edited && !newRef.existed) insertReferenceToFile(newRef)
-    else if (!edited) showMessage(Window, 'The selected text could not be edited successfully, please try again.')
+    if (edited && !newRef.existed) eTools.insertReferenceToFile(newRef)
+    else if (!edited) sTools.showMessage(Window, strings.getText('standard', 'selectedEditFail'))
   } catch (error) {
     console.log(error)
   }

@@ -2,7 +2,7 @@
   "name": "enmeti",
   "displayName": "Enmeti",
   "description": "Helps to insert and manage links/images in Markdown files.",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "publisher": "hf-solutions-llc",
   "license": "MIT",
   "author": {
@@ -33,7 +33,18 @@
           "enmeti.insertOnEmptySelection": {
             "type": "boolean",
             "default": true,
-            "description": "Insert links/images when no text is selected."
+            "description": "Insert links/images when no text is selected.",
+            "scope": "resource"
+          },
+          "enmeti.displayLanguage": {
+            "type": "string",
+            "description": "Which language would you like Enmeti to use?",
+            "enum": [
+              "English",
+              "Spanish"
+            ],
+            "default": "English",
+            "scope": "resource"
           }
         }
       }
