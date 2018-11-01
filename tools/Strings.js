@@ -79,6 +79,7 @@ const getText = (category, key) => {
   switch (lang.toLowerCase()) {
     case 'english': return english[category][key]
     case 'spanish': return spanish[category][key]
+    case 'french': return french[category][key]
 
     default: return undefined
   }
