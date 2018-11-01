@@ -87,6 +87,22 @@ const insertReferenceToFile = reference => {
   })
 }
 
+/**
+ *
+ * @param {Doc} doc
+ */
+const getLastReferenceLine = doc => {
+  for (let x = doc.lineCount - 1; x >= 0; x--) {
+    if (doc.lineAt(x).text.match(/^[\d+]: /)) {
+      console.log(`Found a link: ${doc.lineAt(x).text}`)
+    }
+  }
+}
+
+const Doc = vscode.window.activeTextEditor.document
+
+module.exports.getLastReferenceLine = getLastReferenceLine
+
 module.exports.insertReferenceToFile = insertReferenceToFile
 module.exports.insertLinkReferenceText = insertLinkReferenceText
 module.exports.insertImageReferenceText = insertImageReferenceText
