@@ -104,7 +104,8 @@ const getLastReferenceLine = doc => {
     if (line.text.match(/^\[\d+\]:/)) lastLine = x
   }
 
-  return lastLine + 1
+  if (lastLine === -1) return doc.lineCount + 1
+  else return lastLine + 1
 }
 
 module.exports.getLastReferenceLine = getLastReferenceLine
