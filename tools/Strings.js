@@ -70,45 +70,43 @@ const french = {
     newLink: 'Nouveau liens'
   }
 }
-// #endregion Completed Language Data
 
-// #region WIP Language Data
 const german = {
   insertImage: {
-    getLinkUrlFromUser: 'What is the URL/path of the image you wish to display?',
-    getLinkTextFromUser: 'What should the reference text be for this image URL?'
+    getLinkUrlFromUser: 'Wie lautet der pfad zum Bild den Sie anzeigen wollen?',
+    getLinkTextFromUser: 'Was soll der Referenztext zu diesem Bild URL sein?'
   },
   insertLink: {
-    getLinkUrlFromuser: 'What is the URL this link should point to?',
-    getLinkTextFromUser: 'What should the reference text for this URL be?'
+    getLinkUrlFromuser: 'Auf welcher URL soll dieser Link anzeigen?',
+    getLinkTextFromUser: 'Was soll der Referenztext für dieser URL sein?'
   },
   standard: {
-    selectedEditFail: 'The selected text could not be edited successfully, please try again.',
-    emptyEditFail: 'The text could not be edited successfully, please try again.',
-    invalidUrl: 'Please provide a valid URL.',
-    invalidReferenceText: 'Please provide at least one letter, empty text will not work.',
-    newLink: 'New Link'
+    selectedEditFail: 'Der ausgewählte Text könnte nicht erfolgreich bearbeitet werden, bitte versuchen Sie erneut.',
+    emptyEditFail: 'Der Text könnte nicht erfolgreich bearbeitet werden, bitte versuchen Sie erneut.',
+    invalidUrl: 'Bite geben Sie ein gültigen URL ein.',
+    invalidReferenceText: 'Bitte geben Sie mindestens ein Zeichen ein, der text kann nicht leer sein.',
+    newLink: 'Neue Verknüpfung'
   }
 }
 
 const slovenian = {
   insertImage: {
-    getLinkUrlFromUser: 'What is the URL/path of the image you wish to display?',
-    getLinkTextFromUser: 'What should the reference text be for this image URL?'
+    getLinkUrlFromUser: 'Kakšen je URL do podobe, ki jo želite prikazati?',
+    getLinkTextFromUser: 'Kakšno naj bo besedilo za sklicevanje za URL te podobe?'
   },
   insertLink: {
-    getLinkUrlFromuser: 'What is the URL this link should point to?',
-    getLinkTextFromUser: 'What should the reference text for this URL be?'
+    getLinkUrlFromuser: 'Kakšen je URL na katereka kaže ta povezava?',
+    getLinkTextFromUser: 'Kakšno naj bo sklicevalno besedilo za ta URL?'
   },
   standard: {
-    selectedEditFail: 'The selected text could not be edited successfully, please try again.',
-    emptyEditFail: 'The text could not be edited successfully, please try again.',
-    invalidUrl: 'Please provide a valid URL.',
-    invalidReferenceText: 'Please provide at least one letter, empty text will not work.',
-    newLink: 'New Link'
+    selectedEditFail: 'Izbrano besedilo ni bilo uspešno urejeno, prosim poskusite znova.',
+    emptyEditFail: 'Besedilo ni bilo uspešno urejeno, prosim poskusite znova.',
+    invalidUrl: 'Prosim podajte veljaven URL.',
+    invalidReferenceText: 'Prosim podajte vsaj eno črko, besedilo ne more biti prazno.',
+    newLink: 'Nova povezava'
   }
 }
-// #endregion WIP Language Data
+// #endregion Completed Language Data
 
 const sTools = require('./StdTools')
 const props = require('./Properties')
@@ -128,6 +126,8 @@ const getText = (category, key) => {
     case 'spanish': return spanish[category][key]
     case 'french': return french[category][key]
     case 'portuguese': return portuguese[category][key]
+    case 'german': return german[category][key]
+    case 'slovenian': return slovenian[category][key]
 
     default: return undefined
   }
