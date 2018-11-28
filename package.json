@@ -22,7 +22,8 @@
   },
   "activationEvents": [
     "onLanguage:markdown",
-    "onCommand:enmeti.insertLink"
+    "onCommand:enmeti.insertLink",
+    "onCommand:enmeti.insertImage"
   ],
   "contributes": {
     "configuration": [
@@ -89,11 +90,14 @@
     ]
   },
   "readme": "README.md",
-  "main": "./extension",
+  "main": "./dist/extension",
   "scripts": {
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "node ./node_modules/vscode/bin/test",
-    "publish": "vsce publish && vsce package && mv enmeti*.vsix build/"
+    "prepublish": "webpack --mode production",
+    "publish": "vsce publish && vsce package && mv enmeti*.vsix build/",
+    "webpack": "webpack --mode development",
+    "webpack-dev": "webpack --mode development --watch"
   },
   "devDependencies": {
     "@types/mocha": "~5.2.5",
