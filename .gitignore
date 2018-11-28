@@ -3,3 +3,5 @@ node_modules
 *.vsix
 .vscode/
 package-lock\.json
+
+dist/
