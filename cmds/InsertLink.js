@@ -12,7 +12,7 @@ const Window = vscode.window
 
 /**
  * Handles when a user performs the InsertLink command without any text actually
- * selected. We first detemine if they have the property to insert on an empty
+ * selected. We first determine if they have the property to insert on an empty
  * selection set to true, if so, we perform a separate flow than if they did
  * have a selection.
  */
