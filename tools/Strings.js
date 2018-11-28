@@ -1,4 +1,4 @@
-// #region English
+// #region Completed Language Data
 const english = {
   insertImage: {
     getLinkUrlFromUser: 'What is the URL/path of the image you wish to display?',
@@ -16,9 +16,7 @@ const english = {
     newLink: 'New Link'
   }
 }
-// #endregion English
 
-// #region Spanish
 const spanish = {
   insertImage: {
     getLinkUrlFromUser: '¿Cuál es la URL / ruta de la imagen que desea mostrar?',
@@ -36,9 +34,25 @@ const spanish = {
     newLink: 'Nuevo enlace'
   }
 }
-// #endregion Spanish
 
-// #region French
+const portuguese = {
+  insertImage: {
+    getLinkUrlFromUser: 'Qual é a URL/caminho da imagem que você deseja exibir?',
+    getLinkTextFromUser: 'Qual deve ser o texto de referência para essa URL?'
+  },
+  insertLink: {
+    getLinkUrlFromuser: 'Qual é a URL para onde esse link seá referenciado?',
+    getLinkTextFromUser: 'Qual será o texto de referência dessa URL?'
+  },
+  standard: {
+    selectedEditFail: 'O texto selecionado não pode ser editado, por favor tente novamente.',
+    emptyEditFail: 'O texto não foi edtiado, por favor tente novamente.',
+    invalidUrl: 'Por favor informe uma URL válida.',
+    invalidReferenceText: 'Por favor preencha a String.',
+    newLink: 'Novo link'
+  }
+}
+
 const french = {
   insertImage: {
     getLinkUrlFromUser: 'Quel est l\'URL/path de l\'image que vous voudriez afficher?',
@@ -56,12 +70,45 @@ const french = {
     newLink: 'Nouveau liens'
   }
 }
+// #endregion Completed Language Data
 
-/**
- * Otherwise from top to bottm
+// #region WIP Language Data
+const german = {
+  insertImage: {
+    getLinkUrlFromUser: 'What is the URL/path of the image you wish to display?',
+    getLinkTextFromUser: 'What should the reference text be for this image URL?'
+  },
+  insertLink: {
+    getLinkUrlFromuser: 'What is the URL this link should point to?',
+    getLinkTextFromUser: 'What should the reference text for this URL be?'
+  },
+  standard: {
+    selectedEditFail: 'The selected text could not be edited successfully, please try again.',
+    emptyEditFail: 'The text could not be edited successfully, please try again.',
+    invalidUrl: 'Please provide a valid URL.',
+    invalidReferenceText: 'Please provide at least one letter, empty text will not work.',
+    newLink: 'New Link'
+  }
+}
 
- */
-// #endregion French
+const slovenian = {
+  insertImage: {
+    getLinkUrlFromUser: 'What is the URL/path of the image you wish to display?',
+    getLinkTextFromUser: 'What should the reference text be for this image URL?'
+  },
+  insertLink: {
+    getLinkUrlFromuser: 'What is the URL this link should point to?',
+    getLinkTextFromUser: 'What should the reference text for this URL be?'
+  },
+  standard: {
+    selectedEditFail: 'The selected text could not be edited successfully, please try again.',
+    emptyEditFail: 'The text could not be edited successfully, please try again.',
+    invalidUrl: 'Please provide a valid URL.',
+    invalidReferenceText: 'Please provide at least one letter, empty text will not work.',
+    newLink: 'New Link'
+  }
+}
+// #endregion WIP Language Data
 
 const sTools = require('./StdTools')
 const props = require('./Properties')
@@ -73,13 +120,14 @@ const lang = sTools.getConfigProperty(props.displayLanguage)
  * key parameters.
  *
  * @param {String} category The category/command you want to pull the String from
- * @param {String} key The key for the String you want the vaue of.
+ * @param {String} key The key for the String you want the value of.
  */
 const getText = (category, key) => {
   switch (lang.toLowerCase()) {
     case 'english': return english[category][key]
     case 'spanish': return spanish[category][key]
     case 'french': return french[category][key]
+    case 'portuguese': return portuguese[category][key]
 
     default: return undefined
   }
