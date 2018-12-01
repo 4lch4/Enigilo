@@ -15,6 +15,22 @@ As you can see in the gif, you can also use the default `Ctrl+Shift+I` keybindin
 As usual, any and all input is welcome and much appreciated 😊
 
 ## Changelog
+
+### 1.2.4
+
+- Removed Webpack as it was causing issues after submission to the marketplace
+
+### 1.2.3
+
+- Added German and Slovenian to the available languages
+
+### 1.2.2
+
+- Added Brazilian Portuguese to the available languages
+- Added webpack support (removed in 1.2.4)
+- Fixed some typos in backend documentation
+- Updated developer dependencies
+
 ### 1.2.0
 
 - Added support for different languages
