@@ -1,24 +1,30 @@
 {
-  "name": "enmeti",
+  "name": "@4lch4/enmeti",
   "displayName": "Enmeti",
-  "description": "Helps to insert and manage links/images in Markdown files.",
+  "description": "A Visual Studio Code extension that helps to insert and manage links/images in Markdown files.",
   "version": "1.2.4",
-  "publisher": "hf-solutions-llc",
-  "license": "MIT",
-  "author": {
-    "email": "alcha@hasslefree.solutions",
-    "name": "Devin W. Leaman (Alcha)",
-    "url": "https://hasslefree.solutions"
+  "publisher": "4lch4 Industries, LLC.",
+  "license": "GPL-3.0-only",
+  "main": "./extension",
+  "scripts": {
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "node ./node_modules/vscode/bin/test",
+    "publish": "vsce publish && vsce package && mv enmeti*.vsix build/"
   },
-  "homepage": "https://github.com/HF-Solutions/Enmeti",
+  "author": {
+    "email": "hey@4lch4.email",
+    "name": "4lch4",
+    "url": "https://alcha.org"
+  },
+  "homepage": "https://github.com/4lch4/Enmeti",
   "bugs": {
     "email": "bugs@hasslefree.solutions",
-    "url": "https://github.com/HF-Solutions/Enmeti/issues"
+    "url": "https://github.com/4lch4/Enmeti/issues"
   },
   "icon": "icon.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/HF-Solutions/Enmeti.git"
+    "url": "https://github.com/4lch4/Enmeti.git"
   },
   "activationEvents": [
     "onLanguage:markdown",
@@ -90,12 +96,6 @@
     ]
   },
   "readme": "README.md",
-  "main": "./extension",
-  "scripts": {
-    "postinstall": "node ./node_modules/vscode/bin/install",
-    "test": "node ./node_modules/vscode/bin/test",
-    "publish": "vsce publish && vsce package && mv enmeti*.vsix build/"
-  },
   "devDependencies": {
     "@types/mocha": "~5.2.5",
     "@types/node": "~10.12.10",
