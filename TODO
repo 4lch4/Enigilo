@@ -1,9 +1,0 @@
-
-Todo:
-  ☐ Add a panel that shows the current links. @started(18-11-13 11:23)
-    ✔ Get the necessary images to show links. Preferably a hyperlink logo in white and black for light or dark themes. @done(18-11-13 11:45)
-    + Adding this is gonna be trickier than I thought... I have to figure out how to use their TreeDataProvider thingy. 🤦‍♂️
-  ☐ Look into packing the extension with webpack since extensions run faster this way.
-    + https://github.com/Microsoft/vscode-extension-samples/blob/master/webpack-sample/README.md
-  ☐ Look into i18n support with the `i18n-sample` in the `vscode-extension-samples` repository.
-  ☐ Replace the current input method with the `quickinput-sample` way of doing things.
