@@ -22,6 +22,10 @@ As usual, any and all input is welcome and much appreciated 😊
 
 ## Changelog
 
+### 1.3.2
+
+- Updated name from Enmeti to Enigilo.
+
 ### 1.2.4
 
 - Removed Webpack as it was causing issues after submission to the marketplace
