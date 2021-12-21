@@ -24,10 +24,18 @@ const handleEmptySelection = async () => {
 
       if (linkText !== undefined) {
         let newRef = await lTools.getNewReference(url, editor.document)
-        let edited = await eTools.insertLinkReferenceText(editor.selections, newRef, linkText)
+        let edited = await eTools.insertLinkReferenceText(
+          editor.selections,
+          newRef,
+          linkText
+        )
 
         if (edited && !newRef.existed) eTools.insertReferenceToFile(newRef)
-        else if (!edited) sTools.showMessage(Window, strings.getText('standard', 'emptyEditFail'))
+        else if (!edited)
+          sTools.showMessage(
+            Window,
+            strings.getText('standard', 'emptyEditFail')
+          )
       }
     }
   }
@@ -43,11 +51,18 @@ const insertLink = async () => {
     if (url !== undefined) {
       // Verify the link doesn't exist as a separate reference if it does, retrieve it
       let newRef = await lTools.getNewReference(url, editor.document)
-      let edited = await eTools.insertLinkReferenceText(editor.selections, newRef)
+      let edited = await eTools.insertLinkReferenceText(
+        editor.selections,
+        newRef
+      )
 
       // If the edit succeeded and the link didn't already exist, add it to the file
       if (edited && !newRef.existed) eTools.insertReferenceToFile(newRef)
-      else if (!edited) sTools.showMessage(Window, strings.getText('standard', 'selectedEditFail'))
+      else if (!edited)
+        sTools.showMessage(
+          Window,
+          strings.getText('standard', 'selectedEditFail')
+        )
     }
   } catch (error) {
     console.log(error)

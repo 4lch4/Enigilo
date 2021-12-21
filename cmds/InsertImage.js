@@ -12,16 +12,26 @@ const handleEmptySelection = async () => {
   if (sTools.getConfigProperty(props.handleEmptySelection)) {
     let editor = Window.activeTextEditor
 
-    let url = await lTools.getLinkUrlFromUser(strings.getText('insertImage', 'getLinkUrlFromUser'))
+    let url = await lTools.getLinkUrlFromUser(
+      strings.getText('insertImage', 'getLinkUrlFromUser')
+    )
 
     if (url !== undefined) {
       let linkText = await lTools.getLinkTextFromUser()
       if (linkText !== undefined) {
         let newRef = await lTools.getNewReference(url, editor.document)
-        let edited = await eTools.insertImageReferenceText(editor.selection, newRef, linkText)
+        let edited = await eTools.insertImageReferenceText(
+          editor.selection,
+          newRef,
+          linkText
+        )
 
         if (edited && !newRef.existed) eTools.insertReferenceToFile(newRef)
-        else if (!edited) sTools.showMessage(Window, strings.getText('standard', 'emptyEditFail'))
+        else if (!edited)
+          sTools.showMessage(
+            Window,
+            strings.getText('standard', 'emptyEditFail')
+          )
       }
     }
   }
@@ -35,18 +45,29 @@ const insertImage = async () => {
     let editor = Window.activeTextEditor
     if (editor.selection.isEmpty) return handleEmptySelection()
 
-    let url = await lTools.getLinkUrlFromUser(strings.getText('insertImage', 'getLinkUrlFromUser'))
+    let url = await lTools.getLinkUrlFromUser(
+      strings.getText('insertImage', 'getLinkUrlFromUser')
+    )
 
     if (url !== undefined) {
       // Verify the link doesn't exist as a separate reference. If it does, retrieve it.
       let newRef = await lTools.getNewReference(url, editor.document)
-      let edited = await eTools.insertImageReferenceText(editor.selection, newRef)
+      let edited = await eTools.insertImageReferenceText(
+        editor.selection,
+        newRef
+      )
 
       // If the edit succeeded and the link didn't already exist, add it to the file
       if (edited && !newRef.existed) eTools.insertReferenceToFile(newRef)
-      else if (!edited) sTools.showMessage(Window, strings.getText('standard', 'selectedEditFail'))
+      else if (!edited)
+        sTools.showMessage(
+          Window,
+          strings.getText('standard', 'selectedEditFail')
+        )
     }
-  } catch (err) { console.error(err) }
+  } catch (err) {
+    console.error(err)
+  }
 }
 
 module.exports = insertImage

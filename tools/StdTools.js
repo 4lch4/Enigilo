@@ -32,17 +32,23 @@ module.exports.showMessage = (window, text, options = false, items = false) => {
     if (options && items) {
       window.showInformationMessage(text, options, items).then(
         res => resolve(res),
-        err => { if (err) reject(err) }
+        err => {
+          if (err) reject(err)
+        }
       )
     } else if (items) {
       window.showInformationMessage(text, items).then(
         res => resolve(res),
-        err => { if (err) reject(err) }
+        err => {
+          if (err) reject(err)
+        }
       )
     } else {
       window.showInformationMessage(text).then(
         res => resolve(res),
-        err => { if (err) reject(err) }
+        err => {
+          if (err) reject(err)
+        }
       )
     }
   })

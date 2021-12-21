@@ -30,7 +30,9 @@ const parseExistingReferences = doc => {
       }
     }
   } catch (err) {
-    console.error(`An error has occured while trying to parse existing links: ${err.message}`)
+    console.error(
+      `An error has occured while trying to parse existing links: ${err.message}`
+    )
     return []
   }
 
@@ -77,7 +79,7 @@ const getMaxIndex = links => {
   links.forEach(link => {
     // I use this ridiculous condition because I ran into a condition where
     // Node was saying 9 > 11 == true...
-    if ((link.index - maxIndex) > 0) maxIndex = link.index
+    if (link.index - maxIndex > 0) maxIndex = link.index
   })
 
   // Add one so it can be used for the next reference index
@@ -95,7 +97,9 @@ const getMaxIndex = links => {
  *
  * @returns {Promise<String>} The URL returned via a Promise.
  */
-const getLinkUrlFromUser = (prompt = strings.getText('insertLink', 'getLinkUrlFromuser')) => {
+const getLinkUrlFromUser = (
+  prompt = strings.getText('insertLink', 'getLinkUrlFromuser')
+) => {
   return new Promise((resolve, reject) => {
     Window.showInputBox({
       placeHolder: 'https://hasslefree.solutions',
@@ -105,11 +109,18 @@ const getLinkUrlFromUser = (prompt = strings.getText('insertLink', 'getLinkUrlFr
         else return strings.getText('standard', 'invalidUrl')
       },
       ignoreFocusOut: true
-    }).then(res => resolve(res), err => { if (err) reject(err) })
+    }).then(
+      res => resolve(res),
+      err => {
+        if (err) reject(err)
+      }
+    )
   })
 }
 
-const getLinkTextFromUser = (prompt = strings.getText('insertLink', 'getLinkTextFromUser')) => {
+const getLinkTextFromUser = (
+  prompt = strings.getText('insertLink', 'getLinkTextFromUser')
+) => {
   return new Promise((resolve, reject) => {
     Window.showInputBox({
       placeHolder: strings.getText('standard', 'newLink'),
@@ -119,7 +130,12 @@ const getLinkTextFromUser = (prompt = strings.getText('insertLink', 'getLinkText
         else return strings.getText('standard', 'invalidReferenceText')
       },
       ignoreFocusOut: true
-    }).then(res => resolve(res), err => { if (err) reject(err) })
+    }).then(
+      res => resolve(res),
+      err => {
+        if (err) reject(err)
+      }
+    )
   })
 }
 
@@ -132,7 +148,8 @@ const getLinkTextFromUser = (prompt = strings.getText('insertLink', 'getLinkText
  * @returns {boolean} Is the URL valid?
  */
 const checkUrl = url => {
-  if (url === undefined || url.length === 0 || regex.urlRegex.test(url)) return false
+  if (url === undefined || url.length === 0 || regex.urlRegex.test(url))
+    return false
   else return true
 }
 
@@ -176,9 +193,9 @@ module.exports.getLinkUrlFromUser = getLinkUrlFromUser
 module.exports.getLinkTextFromUser = getLinkTextFromUser
 
 /**
-   * @typedef {Object} Reference
-   * @prop {number} index The reference number used for the inline link
-   * @prop {string} url The url the link points to
-   * @prop {number} lineNum The line number the link resides on
-   * @prop {boolean} existed Whether or not the reference existed previously
-   */
+ * @typedef {Object} Reference
+ * @prop {number} index The reference number used for the inline link
+ * @prop {string} url The url the link points to
+ * @prop {number} lineNum The line number the link resides on
+ * @prop {boolean} existed Whether or not the reference existed previously
+ */

@@ -16,22 +16,29 @@ const Range = vscode.Range
  */
 const insertLinkReferenceText = (selections, reference, ogText = undefined) => {
   return new Promise((resolve, reject) => {
-    Window.activeTextEditor.edit(builder => {
-      for (let x = 0; x < selections.length; x++) {
-        let selection = selections[x]
+    Window.activeTextEditor
+      .edit(builder => {
+        for (let x = 0; x < selections.length; x++) {
+          let selection = selections[x]
 
-        // The OG text to begin with
-        if (ogText === undefined) {
-          ogText = Window.activeTextEditor.document.getText(new Range(selection.start, selection.end))
+          // The OG text to begin with
+          if (ogText === undefined) {
+            ogText = Window.activeTextEditor.document.getText(
+              new Range(selection.start, selection.end)
+            )
+          }
+
+          // The New School text to replace it with
+          let nsText = `[${ogText}][${reference.index}]`
+
+          // Perform the actual replacement
+          builder.replace(selection, nsText)
         }
-
-        // The New School text to replace it with
-        let nsText = `[${ogText}][${reference.index}]`
-
-        // Perform the actual replacement
-        builder.replace(selection, nsText)
-      }
-    }).then(fulfilled => resolve(fulfilled), err => reject(err))
+      })
+      .then(
+        fulfilled => resolve(fulfilled),
+        err => reject(err)
+      )
   })
 }
 
@@ -47,18 +54,27 @@ const insertLinkReferenceText = (selections, reference, ogText = undefined) => {
  */
 const insertImageReferenceText = (selection, reference, ogText = undefined) => {
   return new Promise((resolve, reject) => {
-    Window.activeTextEditor.edit(builder => {
-      // The OG text to begin with
-      if (ogText === undefined) {
-        ogText = Window.activeTextEditor.document.getText(new Range(selection.start, selection.end))
-      }
+    Window.activeTextEditor
+      .edit(builder => {
+        // The OG text to begin with
+        if (ogText === undefined) {
+          ogText = Window.activeTextEditor.document.getText(
+            new Range(selection.start, selection.end)
+          )
+        }
 
-      // The New School text to replace it with
-      let nsText = `![${ogText}][${reference.index}]`
+        // The New School text to replace it with
+        let nsText = `![${ogText}][${reference.index}]`
 
-      // Perform the actual replacement
-      builder.replace(selection, nsText)
-    }).then(fulfilled => resolve(fulfilled), err => { if (err) reject(err) })
+        // Perform the actual replacement
+        builder.replace(selection, nsText)
+      })
+      .then(
+        fulfilled => resolve(fulfilled),
+        err => {
+          if (err) reject(err)
+        }
+      )
   })
 }
 
@@ -74,16 +90,23 @@ const insertImageReferenceText = (selection, reference, ogText = undefined) => {
  */
 const insertReferenceToFile = reference => {
   return new Promise((resolve, reject) => {
-    Window.activeTextEditor.edit(builder => {
-      // The position for the actual url to go
-      let position = new vscode.Position(reference.lineNum, 0)
+    Window.activeTextEditor
+      .edit(builder => {
+        // The position for the actual url to go
+        let position = new vscode.Position(reference.lineNum, 0)
 
-      // The formatted string containing the index and url
-      let content = `[${reference.index}]: ${reference.url}\n`
+        // The formatted string containing the index and url
+        let content = `[${reference.index}]: ${reference.url}\n`
 
-      // Insert the url reference at the bottom of the file
-      builder.insert(position, content)
-    }).then(fulfilled => resolve(fulfilled), err => { if (err) reject(err) })
+        // Insert the url reference at the bottom of the file
+        builder.insert(position, content)
+      })
+      .then(
+        fulfilled => resolve(fulfilled),
+        err => {
+          if (err) reject(err)
+        }
+      )
   })
 }
 
