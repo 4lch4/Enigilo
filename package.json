@@ -9,7 +9,8 @@
   "scripts": {
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "node ./node_modules/vscode/bin/test",
-    "publish": "vsce publish && vsce package && mv enmeti*.vsix build/"
+    "publish": "vsce publish && vsce package && mv enmeti*.vsix build/",
+    "package": "vsce package --yarn"
   },
   "author": {
     "email": "hey@4lch4.email",
