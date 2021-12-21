@@ -2,6 +2,12 @@
 
 Enigilo is a [Visual Studio Code][0] extension that's sole purpose is to make it easier to insert and manage your links in Markdown files.
 
+## Name
+
+This project was initially called Enmeti. In order to publish it under my _actual_ publisher profile (4lch4) I had to rename it as I've lost access to the original publisher profile (HF-Solutions-LLC).
+
+As for the meaning behind the name, Enmeti means "Insert" in Esperanto, whereas Enigilo means "Inserter" which I found to be more accurate to what this extension does.
+
 ## How to Use It
 
 The simplest way to insert a link would be to select some text, right click, and then select `Insert Link`. It will show an **InputBox** so you can give it the URL of your link:
