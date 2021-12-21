@@ -25,6 +25,7 @@ As usual, any and all input is welcome and much appreciated 😊
 ### 1.3.2
 
 - Updated name from Enmeti to Enigilo.
+- Changed license from GPL-3 to MIT.
 
 ### 1.2.4
 
