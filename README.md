@@ -1,6 +1,6 @@
-# Project Enmeti
+# Project Enigilo
 
-Enmeti is a [Visual Studio Code][0] extension that's sole purpose is to make it easier to insert and manage your links in Markdown files.
+Enigilo is a [Visual Studio Code][0] extension that's sole purpose is to make it easier to insert and manage your links in Markdown files.
 
 ## How to Use It
 
@@ -35,10 +35,10 @@ As usual, any and all input is welcome and much appreciated 😊
 
 - Added support for different languages
   - So far English, Spanish, and French are the only supported languages with English being the default.
-  - You can set which language you'd like in your settings with the `enmeti.displayLanguage` property.
+  - You can set which language you'd like in your settings with the `enigilo.displayLanguage` property.
   - Changing the language does require a restart/reload of Visual Studio Code.
   - If you wish to fix any of the existing translations or add new ones, please open a PR or contact [Alcha][6]
-- Fixed Enmeti from trying to insert a link when the **ESC** key is used on an **InputBox**.
+- Fixed Enigilo from trying to insert a link when the **ESC** key is used on an **InputBox**.
 
 [0]: http://code.visualstudio.com
 [1]: https://i.imgur.com/XOLPFvF.gif

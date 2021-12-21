@@ -11,7 +11,7 @@
  * @requires ./Properties.js
  */
 module.exports.getConfigProperty = property => {
-  const config = vscode.workspace.getConfiguration('enmeti')
+  const config = vscode.workspace.getConfiguration('enigilo')
   const doHave = config.has(property)
 
   if (doHave) return config.get(property)
