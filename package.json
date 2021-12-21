@@ -1,15 +1,15 @@
 {
-  "name": "enmeti",
-  "displayName": "Enmeti",
+  "name": "enigilo",
+  "displayName": "Enigilo",
   "description": "A Visual Studio Code extension that helps to insert and manage links/images in Markdown files.",
   "version": "1.2.5",
-  "publisher": "4lch4",
+  "publisher": "4lch4 Industries, LLC.",
   "license": "MIT",
   "main": "./extension",
   "scripts": {
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "node ./node_modules/vscode/bin/test",
-    "publish": "vsce publish && vsce package && mv enmeti*.vsix build/",
+    "publish": "vsce publish && vsce package && mv enigilo*.vsix build/",
     "package": "vsce package --yarn"
   },
   "author": {
@@ -17,36 +17,36 @@
     "name": "4lch4",
     "url": "https://alcha.org"
   },
-  "homepage": "https://github.com/4lch4/Enmeti",
+  "homepage": "https://github.com/4lch4/Enigilo",
   "bugs": {
     "email": "bugs@hasslefree.solutions",
-    "url": "https://github.com/4lch4/Enmeti/issues"
+    "url": "https://github.com/4lch4/Enigilo/issues"
   },
   "icon": "icon.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/4lch4/Enmeti.git"
+    "url": "https://github.com/4lch4/Enigilo.git"
   },
   "activationEvents": [
     "onLanguage:markdown",
-    "onCommand:enmeti.insertLink",
-    "onCommand:enmeti.insertImage"
+    "onCommand:enigilo.insertLink",
+    "onCommand:enigilo.insertImage"
   ],
   "contributes": {
     "configuration": [
       {
-        "title": "Enmeti",
+        "title": "Enigilo",
         "type": "object",
         "properties": {
-          "enmeti.insertOnEmptySelection": {
+          "enigilo.insertOnEmptySelection": {
             "type": "boolean",
             "default": true,
             "description": "Insert links/images when no text is selected.",
             "scope": "resource"
           },
-          "enmeti.displayLanguage": {
+          "enigilo.displayLanguage": {
             "type": "string",
-            "description": "Which language would you like Enmeti to use?",
+            "description": "Which language would you like Enigilo to use?",
             "enum": [
               "English",
               "Spanish"
@@ -59,12 +59,12 @@
     ],
     "commands": [
       {
-        "command": "enmeti.insertLink",
+        "command": "enigilo.insertLink",
         "title": "Insert Link",
         "category": "Insertions"
       },
       {
-        "command": "enmeti.insertImage",
+        "command": "enigilo.insertImage",
         "title": "Insert Image",
         "category": "Insertions"
       }
@@ -73,24 +73,24 @@
       "editor/context": [
         {
           "when": "resourceLangId == markdown",
-          "command": "enmeti.insertLink",
+          "command": "enigilo.insertLink",
           "group": "Insertions"
         },
         {
           "when": "resourceLangId == markdown",
-          "command": "enmeti.insertImage",
+          "command": "enigilo.insertImage",
           "group": "Insertions"
         }
       ]
     },
     "keybindings": [
       {
-        "command": "enmeti.insertLink",
+        "command": "enigilo.insertLink",
         "key": "ctrl+shift+i",
         "when": "editorTextFocus"
       },
       {
-        "command": "enmeti.insertImage",
+        "command": "enigilo.insertImage",
         "key": "ctrl+alt+i",
         "when": "editorTextFocus"
       }
